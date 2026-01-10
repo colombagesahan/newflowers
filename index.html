@@ -663,6 +663,114 @@
         .form-grid { grid-template-columns: 1fr; }
         form { padding: 25px; }
     }
+	
+	/* =========================================
+       EMERGENCY FIX FOR 250px SCREENS
+       ========================================= */
+    @media screen and (max-width: 359px) {
+        
+        /* 1. Global Layout Fixes */
+        .container {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        body, html {
+            overflow-x: hidden !important;
+            max-width: 100% !important;
+        }
+
+        /* 2. Force All Grids to 1 Column */
+        .services-grid, 
+        .gallery-grid, 
+        .contact-grid, 
+        .process-grid, 
+        .pricing-grid, 
+        .testimonial-grid,
+        .promise-grid,
+        .about-grid,
+        .quality-grid,
+        .highlight-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+            display: block !important; /* Forces stacking */
+        }
+
+        /* 3. Add spacing between stacked items */
+        .service-card, 
+        .gallery-item, 
+        .process-item, 
+        .price-card, 
+        .review-card,
+        .promise-card,
+        .highlight-item {
+            margin-bottom: 25px !important;
+            width: 100% !important;
+        }
+
+        /* 4. Resize Big Headings */
+        h1 { font-size: 1.8rem !important; line-height: 1.2 !important; }
+        h2 { font-size: 1.5rem !important; }
+        .hero-content p { font-size: 1rem !important; }
+
+        /* 5. Fix Hero Buttons Stacking */
+        .hero-btns {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+        .hero-btns .btn {
+            width: 100% !important;
+            display: block !important;
+            margin: 0 !important;
+        }
+
+        /* 6. Fix Floating Widgets (Make them smaller) */
+        .chat-widget {
+            right: 10px !important;
+            bottom: 10px !important;
+            transform: scale(0.8) !important; /* Shrink to 80% */
+            transform-origin: bottom right !important;
+        }
+        
+        .book-float {
+            right: 10px !important;
+            bottom: 80px !important;
+            padding: 8px 15px !important;
+            font-size: 0.8rem !important;
+            width: auto !important;
+        }
+
+        /* 7. Fix Comparison Table Scroll */
+        .comparison-table-wrapper {
+            width: 100% !important;
+            overflow-x: scroll !important; /* Allow table scrolling only */
+            display: block !important;
+        }
+
+        /* 8. Fix Before/After Slider */
+        .comparison-container {
+            height: 300px !important; /* Shorter height for mobile */
+        }
+        .img-comp-container { height: 300px !important; }
+
+        /* 9. Fix Navbar */
+        .logo { font-size: 1.1rem !important; }
+        .logo i { font-size: 1.3rem !important; }
+        header { padding: 0 !important; }
+        
+        /* 10. Fix WhatsApp Form */
+        .form-grid { grid-template-columns: 1fr !important; }
+        .input-group input, .input-group select { font-size: 0.9rem !important; }
+
+        /* 11. Fix Highlights (Floating Bar) */
+        #highlights {
+            margin-top: 0 !important; /* Remove negative margin on mobile */
+            padding-top: 30px !important;
+            background: var(--light-bg) !important;
+        }
+    }
     </style>
 </head>
 <body>
