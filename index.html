@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Flowers Home Design & Constructions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav>
+        <div class="container nav-flex">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+                <span>New Flowers Designs</span>
+            </div>
+            <a href="adminnewflowers.html" style="font-size:0.8rem; color: var(--primary);">Admin Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1 id="hero-title">Building Dreams, Engineering Reality</h1>
+            <p id="hero-desc">The Leader in the Construction Industry with 25 Years of Trust and Experience.</p>
+            <a href="#contact" class="btn">Get a Quote</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="grid-box">
+                <div class="card">
+                    <i class="fas fa-drafting-compass fa-3x" style="color:var(--secondary)"></i>
+                    <h3>Architectural Design</h3>
+                    <p>Standardized home & building designs compliant with UDA Regulations.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-hard-hat fa-3x" style="color:var(--secondary)"></i>
+                    <h3>Construction</h3>
+                    <p>Complete building construction with high-quality materials.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-calculator fa-3x" style="color:var(--secondary)"></i>
+                    <h3>BOQ & Estimates</h3>
+                    <p>Bank loan estimates and detailed Bill of Quantities.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-cube fa-3x" style="color:var(--secondary)"></i>
+                    <h3>3D & Vastu</h3>
+                    <p>Modern 3D modeling and Vastu Vidya compliant planning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Designs -->
+    <section class="section" style="background:#fff;">
+        <div class="container">
+            <h2 class="section-title">New Designs</h2>
+            <div id="designs-grid" class="grid-box">
+                <!-- Loaded via JS -->
+            </div>
+            <div style="text-align:center; margin-top:20px;">
+                <a href="alldesigns.html" class="btn">View All Designs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Promise -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <p id="about-text" style="text-align:center; max-width:800px; margin:0 auto 30px auto;">
+                Loading...
+            </p>
+            <div class="grid-box">
+                <div class="card">
+                    <h4>Our Mission</h4>
+                    <p id="mission-text">...</p>
+                </div>
+                <div class="card">
+                    <h4>Our Vision</h4>
+                    <p id="vision-text">...</p>
+                </div>
+                <div class="card">
+                    <h4>Why Choose Us?</h4>
+                    <p>Professional & Trustworthy service. We handle approvals, construction, and large format printing under one roof.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commitment to Quality (SEO) -->
+    <section class="section" style="background:var(--primary); color:white;">
+        <div class="container">
+            <h2 class="section-title" style="color:var(--secondary)">Commitment to Quality</h2>
+            <p>At New Flowers Home Design, we adhere strictly to local authority regulations. Every plan is drafted to meet urban development standards, ensuring a hassle-free approval process for your bank loans and construction permits. Our 25 years of experience guarantees structural integrity and aesthetic perfection.</p>
+        </div>
+    </section>
+
+    <!-- Gallery/Completed -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Completed Projects</h2>
+            <div id="completed-grid" class="grid-box"></div>
+            <div style="text-align:center; margin-top:20px;">
+                <a href="allcompletedprojects.html" class="btn">See All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section" style="background:#e9ecef;">
+        <div class="container">
+            <h2 class="section-title">Client Reviews</h2>
+            <div id="reviews-grid" class="grid-box"></div>
+        </div>
+    </section>
+
+    <!-- Contact & Booking -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="grid-box">
+                <div>
+                    <h3>Book Consultation</h3>
+                    <p>Schedule a Zoom meeting or visit us.</p>
+                    <p><strong>Office:</strong> 126/1/1, Court Road, Homagama</p>
+                    <p><strong>Phone:</strong> 077 787 7204 / 076 262 7204</p>
+                    <p><strong>Email:</strong> newflowersdesign@gmail.com</p>
+                </div>
+                <form id="contact-form" class="card">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="c-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="c-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="c-msg" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <img src="logo.png" style="height:50px; margin-bottom:15px;">
+                <p>Sri Lanka's premier construction partner.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="alldesigns.html">Designs</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p>011 720 3140</p>
+                <div class="socials">
+                    <!-- Add social icons here -->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Bot UI -->
+    <div class="chatbot-toggler">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+    <div class="chatbot-window">
+        <div class="chat-header">
+            <h4>Chat with Us</h4>
+        </div>
+        <div class="chat-body">
+            <div class="chat-msg bot">Hi! How can I help you with your dream home today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type a message...">
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>
