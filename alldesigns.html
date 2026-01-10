@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Designs | New Flowers Home Design</title>
+    <meta name="description" content="Explore our complete collection of modern house plans, two-story homes, and luxury villas.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+
+    <!-- Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Abhaya+Libre:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES (MATCHING HOME PAGE) --- */
+        :root {
+            --primary-color: #2c3e50;
+            --primary-dark: #1a252f;
+            --accent-color: #e67e22;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --font-en: 'Inter', sans-serif;
+            --font-si: 'Abhaya Libre', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-en);
+            color: var(--text-main);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        body.lang-si { font-family: var(--font-si); }
+        body.lang-si h1, body.lang-si h2, body.lang-si h3 { font-weight: 800; }
+
+        /* --- NAVIGATION --- */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+
+        .logo {
+            font-size: 1.4rem; font-weight: 800; color: var(--primary-color);
+            display: flex; align-items: center; gap: 10px; text-transform: uppercase;
+        }
+        .logo i { color: var(--accent-color); }
+
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { font-weight: 600; color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--accent-color); }
+        
+        .lang-btn {
+            border: 2px solid var(--primary-color); padding: 5px 15px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 700; cursor: pointer; background: transparent;
+            color: var(--primary-color);
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            height: 300px; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: white; margin-top: 80px;
+        }
+        .page-header h1 { font-size: 3rem; margin-bottom: 10px; }
+
+        /* --- FILTER BUTTONS --- */
+        .filter-container {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            padding: 40px 0 20px;
+        }
+        .filter-btn {
+            padding: 10px 25px; border: 2px solid var(--primary-color);
+            border-radius: 50px; background: transparent; color: var(--primary-color);
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color); color: white;
+        }
+
+        /* --- DESIGN GRID --- */
+        .design-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; padding: 40px 0 80px;
+        }
+
+        .design-card {
+            background: white; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
+            cursor: pointer; position: relative;
+        }
+
+        .design-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+
+        .card-img {
+            height: 250px; overflow: hidden; position: relative;
+        }
+        .card-img img {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;
+        }
+        .design-card:hover img { transform: scale(1.1); }
+
+        .card-info { padding: 20px; text-align: center; }
+        .card-info h3 { color: var(--primary-color); font-size: 1.2rem; margin-bottom: 5px; }
+        .design-id { color: var(--accent-color); font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 10px; }
+        .tag {
+            background: #eee; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; color: #555;
+        }
+
+        /* --- MODAL (POPUP) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-box {
+            background: white; width: 90%; max-width: 900px;
+            display: grid; grid-template-columns: 1.5fr 1fr;
+            border-radius: 10px; overflow: hidden; position: relative;
+            animation: zoomIn 0.3s;
+        }
+
+        .modal-img { height: 100%; min-height: 400px; }
+        .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .modal-content { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .close-btn {
+            position: absolute; top: 15px; right: 20px; font-size: 2rem;
+            cursor: pointer; color: var(--primary-color); z-index: 10;
+        }
+        
+        .feature-list { list-style: none; margin: 20px 0; }
+        .feature-list li { margin-bottom: 10px; color: #555; display: flex; gap: 10px; }
+        .feature-list i { color: var(--accent-color); }
+
+        .btn-inquire {
+            background: #25D366; color: white; padding: 15px; text-align: center;
+            border-radius: 5px; text-decoration: none; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 20px; transition: 0.3s; border: none; cursor: pointer; width: 100%; font-size: 1rem;
+        }
+        .btn-inquire:hover { background: #128C7E; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .modal-box { grid-template-columns: 1fr; height: 90vh; overflow-y: auto; }
+            .modal-img { height: 250px; }
+            .modal-content { padding: 25px; }
+            .page-header h1 { font-size: 2rem; }
+            .nav-links { display: none; } /* Simplified for this page */
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <i class="fas fa-city"></i>
+                <div>NEW FLOWERS <span style="font-size: 0.8rem; display:block; color:var(--accent-color);">DESIGNS</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" data-en="< Back to Home" data-si="< මුල් පිටුවට">< Back to Home</a>
+                <button class="lang-btn" onclick="toggleLanguage()"><i class="fas fa-globe"></i> <span id="langText">SINHALA</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <div class="page-header">
+        <div data-aos="fade-up">
+            <h1 data-en="Design Collection 2026" data-si="නිවාස සැලසුම් එකතුව 2026">Design Collection 2026</h1>
+            <p data-en="Find your dream home from our gallery" data-si="අපගේ එකතුවෙන් ඔබේ සිහින නිවස තෝරාගන්න">Find your dream home from our gallery</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Filter Buttons -->
+        <div class="filter-container" data-aos="fade-up">
+            <button class="filter-btn active" onclick="filterDesigns('all')" data-en="All" data-si="සියල්ල">All</button>
+            <button class="filter-btn" onclick="filterDesigns('modern')" data-en="Modern" data-si="නවීන">Modern</button>
+            <button class="filter-btn" onclick="filterDesigns('two-story')" data-en="Two Story" data-si="දෙමහල්">Two Story</button>
+            <button class="filter-btn" onclick="filterDesigns('single-story')" data-en="Single Story" data-si="තනි මහල්">Single Story</button>
+            <button class="filter-btn" onclick="filterDesigns('luxury')" data-en="Luxury" data-si="සුඛෝපභෝගී">Luxury</button>
+        </div>
+
+        <!-- Design Grid -->
+        <div class="design-grid">
+            
+            <!-- Item 1 -->
+            <div class="design-card modern two-story" onclick="openModal('NF-001', 'Modern Box House', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '4 Bed | 3 Bath | 2500 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-001</span>
+                    <h3 data-en="Modern Box House" data-si="නවීන බොක්ස් නිවස">Modern Box House</h3>
+                    <span class="tag">Two Story</span> <span class="tag">Modern</span>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="design-card luxury two-story" onclick="openModal('NF-002', 'Luxury Villa Kottawa', 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '5 Bed | 4 Bath | 3200 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-002</span>
+                    <h3 data-en="Luxury Villa" data-si="සුඛෝපභෝගී විලා">Luxury Villa</h3>
+                    <span class="tag">Luxury</span> <span class="tag">Two Story</span>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="design-card single-story" onclick="openModal('NF-003', 'Budget Single Story', 'https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '3 Bed | 2 Bath | 1400 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-003</span>
+                    <h3 data-en="Compact Single Story" data-si="කුඩා තනි මහල් නිවස">Compact Single Story</h3>
+                    <span class="tag">Budget</span> <span class="tag">Single Story</span>
+                </div>
+            </div>
+
+             <!-- Item 4 -->
+            <div class="design-card modern two-story" onclick="openModal('NF-004', 'Ultra Modern Glass', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '4 Bed | 4 Bath | 2800 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-004</span>
+                    <h3 data-en="Ultra Modern Glass" data-si="අති නවීන ග්ලාස් නිවස">Ultra Modern Glass</h3>
+                    <span class="tag">Modern</span> <span class="tag">Unique</span>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="design-card luxury" onclick="openModal('NF-005', 'Colonial Mansion', 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '6 Bed | 5 Bath | 4500 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-005</span>
+                    <h3 data-en="Colonial Mansion" data-si="වලව් මාදිලියේ නිවස">Colonial Mansion</h3>
+                    <span class="tag">Luxury</span> <span class="tag">Colonial</span>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="design-card single-story" onclick="openModal('NF-006', 'Cute Cottage', 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', '2 Bed | 1 Bath | 1100 Sqft')">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="House">
+                </div>
+                <div class="card-info">
+                    <span class="design-id">ID: NF-006</span>
+                    <h3 data-en="Cottage Home" data-si="කොටේජ් නිවස">Cottage Home</h3>
+                    <span class="tag">Single Story</span> <span class="tag">Budget</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Layout -->
+    <div id="designModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-img">
+                <img id="m-img" src="" alt="Design Preview">
+            </div>
+            <div class="modal-content">
+                <span id="m-id" style="color: var(--accent-color); font-weight: 800;">ID: NF-000</span>
+                <h2 id="m-title" style="color: var(--primary-color); margin: 10px 0 20px;">Design Title</h2>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-ruler-combined"></i> <span id="m-specs">Specs</span></li>
+                    <li><i class="fas fa-check-circle"></i> UDA Approved Design</li>
+                    <li><i class="fas fa-check-circle"></i> Vastu Compliant</li>
+                    <li><i class="fas fa-check-circle"></i> Customizable Layout</li>
+                </ul>
+
+                <p style="font-size: 0.9rem; color: #777; margin-bottom: 20px;">
+                    This design can be adjusted to fit your land size and budget. Contact us for the full floor plan and BOQ estimate.
+                </p>
+
+                <button id="wa-btn" class="btn-inquire" onclick="sendInquiry()">
+                    <i class="fab fa-whatsapp"></i> Inquire About This Design
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // 1. Filter Logic
+        function filterDesigns(category) {
+            // Button Active State
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/Hide Cards
+            const cards = document.querySelectorAll('.design-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                    card.classList.remove('aos-animate');
+                    setTimeout(() => card.classList.add('aos-animate'), 50); // Re-trigger animation
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 2. Modal Logic
+        const modal = document.getElementById('designModal');
+        let currentDesignId = "";
+
+        function openModal(id, title, imgUrl, specs) {
+            document.getElementById('m-id').innerText = "ID: " + id;
+            document.getElementById('m-title').innerText = title;
+            document.getElementById('m-img').src = imgUrl;
+            document.getElementById('m-specs').innerText = specs;
+            
+            currentDesignId = id; // Save ID for WhatsApp
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function closeModalOutside(e) {
+            if (e.target === modal) closeModal();
+        }
+
+        // 3. WhatsApp Logic
+        function sendInquiry() {
+            const text = `Hi New Flowers, I am interested in Design *${currentDesignId}*. Please send me more details.`;
+            window.open(`https://wa.me/94777877204?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // 4. Language Logic (Reused)
+        let currentLang = 'en'; 
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'si' : 'en';
+            
+            // Toggle Body Class
+            if(currentLang === 'si') {
+                document.body.classList.add('lang-si');
+                document.getElementById('langText').innerText = "ENGLISH";
+            } else {
+                document.body.classList.remove('lang-si');
+                document.getElementById('langText').innerText = "SINHALA";
+            }
+
+            // Update Text
+            const elements = document.querySelectorAll(`[data-${currentLang}]`);
+            elements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+        }
+    </script>
+</body>
+</html>
