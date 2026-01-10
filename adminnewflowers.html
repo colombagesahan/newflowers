@@ -5,42 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - New Flowers</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase -->
+    
+    <!-- Firebase SDKs (Must include Auth for production security) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 </head>
 <body>
 
-    <!-- Login Gate -->
+    <!-- Login Gate (Secure Overlay) -->
     <div id="login-gate" class="admin-login-overlay">
         <div class="admin-box">
             <h2 style="text-align:center; margin-bottom:20px;">Admin Login</h2>
+            <p style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:10px;">
+                Secure Access for New Flowers Official
+            </p>
             <div class="form-group">
-                <label>User Name</label>
-                <input type="text" id="u-name">
+                <label>Email</label>
+                <!-- Firebase requires an email. e.g., 0777877204@newflowers.com -->
+                <input type="email" id="u-name" placeholder="admin@example.com">
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" id="p-word">
             </div>
-            <button class="btn" onclick="checkLogin()" style="width:100%">Login</button>
-            <p id="login-error" style="color:red; text-align:center; display:none; margin-top:10px;">Invalid Credentials</p>
+            <button class="btn" onclick="checkLogin()" style="width:100%">Secure Login</button>
+            <p id="login-error" style="color:red; text-align:center; display:none; margin-top:10px;">
+                Invalid Credentials
+            </p>
         </div>
     </div>
 
-    <!-- Dashboard -->
+    <!-- Dashboard (Hidden until Authenticated) -->
     <div id="dashboard" class="dashboard-grid" style="display:none;">
         <div class="sidebar">
             <h3>Admin Panel</h3>
-            <ul style="margin-top:20px;">
+            <div style="font-size:0.8rem; color:#aaa; margin-bottom:20px;">
+                Logged in securely
+            </div>
+            <ul>
                 <li onclick="showTab('hero-edit')">Edit Home Text</li>
                 <li onclick="showTab('add-design')">Add New Design</li>
                 <li onclick="showTab('add-project')">Add Completed Project</li>
                 <li onclick="showTab('messages')">View Messages</li>
                 <li onclick="showTab('blog-edit')">Manage Blog</li>
+                <li onclick="logout()" style="border-top:1px solid rgba(255,255,255,0.2); margin-top:20px; color:#ff8888;">Logout</li>
             </ul>
         </div>
+        
         <div class="main-content">
             
             <!-- Edit Hero -->
@@ -49,11 +62,11 @@
                 <div class="card">
                     <div class="form-group">
                         <label>Hero Title</label>
-                        <input type="text" id="edit-hero-title">
+                        <input type="text" id="edit-hero-title" placeholder="Building Dreams...">
                     </div>
                     <div class="form-group">
                         <label>Hero Subtitle</label>
-                        <input type="text" id="edit-hero-sub">
+                        <input type="text" id="edit-hero-sub" placeholder="25 Years of Trust...">
                     </div>
                     <div class="form-group">
                         <label>About Us Text</label>
@@ -73,7 +86,7 @@
                     </div>
                     <div class="form-group">
                         <label>Image URL</label>
-                        <input type="text" id="d-img" placeholder="Paste image link or upload logic needed">
+                        <input type="text" id="d-img" placeholder="Right click image -> Copy Image Address">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -85,8 +98,12 @@
 
             <!-- Messages -->
             <div id="messages" class="tab-content" style="display:none;">
-                <h2>Inbox</h2>
-                <div id="msg-list" class="grid-box"></div>
+                <h2>Inbox (Contact Form)</h2>
+                <button class="btn" onclick="loadMessages()" style="font-size:0.8rem; margin-bottom:15px;">Refresh Inbox</button>
+                <div id="msg-list" class="grid-box" style="grid-template-columns: 1fr;">
+                    <!-- Messages load here -->
+                    <p>Loading messages...</p>
+                </div>
             </div>
 
             <!-- Add Project -->
@@ -109,72 +126,182 @@
                 </div>
             </div>
 
+            <!-- Blog Manager (Placeholder for future expansion) -->
+            <div id="blog-edit" class="tab-content" style="display:none;">
+                <h2>Manage Blog</h2>
+                <div class="card">
+                    <p>Blog management features coming soon.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- Import Main Logic first (Initializes App) -->
     <script src="logic.js"></script>
+    
+    <!-- Admin Specific Logic -->
     <script>
-        // Security Check
-        function checkLogin() {
-            const u = document.getElementById('u-name').value;
-            const p = document.getElementById('p-word').value;
-            // HARDCODED CREDENTIALS AS REQUESTED
-            if(u === "0777877204" && p === "234991621") {
+        // Ensure Auth is initialized
+        const auth = firebase.auth();
+
+        // 1. Monitor Authentication State (Persist Login)
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in.
+                console.log("Admin Logged In:", user.email);
                 document.getElementById('login-gate').style.display = "none";
                 document.getElementById('dashboard').style.display = "grid";
-                loadMessages();
+                
+                // Load data immediately
+                loadMessages(); 
+                
+                // Pre-fill fields logic could go here
+                db.collection(SITE_COLLECTION).doc('hero').get().then(doc => {
+                   if(doc.exists) {
+                       document.getElementById('edit-hero-title').value = doc.data().title || "";
+                       document.getElementById('edit-hero-sub').value = doc.data().subtitle || "";
+                   }
+                });
+
             } else {
-                document.getElementById('login-error').style.display = "block";
+                // No user is signed in.
+                document.getElementById('login-gate').style.display = "flex";
+                document.getElementById('dashboard').style.display = "none";
             }
+        });
+
+        // 2. Secure Login Function
+        function checkLogin() {
+            const email = document.getElementById('u-name').value;
+            const password = document.getElementById('p-word').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if(!email || !password) {
+                errorMsg.innerText = "Please enter both email and password.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            // Authenticate with Firebase
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Success (onAuthStateChanged will handle the UI switch)
+                    errorMsg.style.display = "none";
+                })
+                .catch((error) => {
+                    console.error("Login Failed", error);
+                    errorMsg.innerText = error.message;
+                    errorMsg.style.display = "block";
+                });
         }
 
+        // 3. Logout Function
+        function logout() {
+            auth.signOut().then(() => {
+                alert("Logged out successfully");
+                window.location.reload();
+            });
+        }
+
+        // 4. Tab Switching
         function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(d => d.style.display = 'none');
             document.getElementById(id).style.display = 'block';
         }
 
-        // Save General Text
+        // 5. Save General Text (Hero/About)
         async function saveTextData() {
             const title = document.getElementById('edit-hero-title').value;
             const sub = document.getElementById('edit-hero-sub').value;
             const about = document.getElementById('edit-about').value;
 
-            if(title) await db.collection(SITE_COLLECTION).doc('hero').set({ title: title, subtitle: sub }, { merge: true });
-            if(about) await db.collection(SITE_COLLECTION).doc('about').set({ text: about }, { merge: true });
-            
-            alert("Website Updated Successfully!");
+            try {
+                const batch = db.batch();
+                
+                if(title || sub) {
+                    const heroRef = db.collection(SITE_COLLECTION).doc('hero');
+                    batch.set(heroRef, { title: title, subtitle: sub }, { merge: true });
+                }
+                
+                if(about) {
+                    const aboutRef = db.collection(SITE_COLLECTION).doc('about');
+                    batch.set(aboutRef, { text: about }, { merge: true });
+                }
+
+                await batch.commit();
+                alert("Website Updated Successfully!");
+            } catch (error) {
+                console.error("Error updating text: ", error);
+                alert("Error: " + error.message);
+            }
         }
 
-        // Add Grid Items
+        // 6. Add Grid Items (Designs/Projects)
         async function addData(collection, titleId, imgId, descId) {
             const title = document.getElementById(titleId).value;
             const image = document.getElementById(imgId).value;
             const desc = document.getElementById(descId).value;
 
-            await db.collection(SITE_COLLECTION).collection(collection).add({
-                title, image, desc, date: new Date().toISOString()
-            });
-            alert("Added Successfully!");
-            // Clear inputs
-            document.getElementById(titleId).value = "";
+            if(!title) { alert("Title is required"); return; }
+
+            try {
+                await db.collection(SITE_COLLECTION).collection(collection).add({
+                    title: title,
+                    image: image,
+                    desc: desc,
+                    date: new Date().toISOString(),
+                    createdBy: auth.currentUser.uid // Audit trail
+                });
+                
+                alert("Added Successfully!");
+                // Clear inputs
+                document.getElementById(titleId).value = "";
+                document.getElementById(imgId).value = "";
+                document.getElementById(descId).value = "";
+            } catch (error) {
+                console.error("Error adding data: ", error);
+                alert("Error: You might not have permission. " + error.message);
+            }
         }
 
-        // Load Messages
+        // 7. Load Messages (Inbox)
         async function loadMessages() {
             const list = document.getElementById('msg-list');
-            const snap = await db.collection(SITE_COLLECTION).collection('messages').orderBy('date', 'desc').get();
-            list.innerHTML = '';
-            snap.forEach(doc => {
-                const m = doc.data();
-                list.innerHTML += `
-                    <div class="card">
-                        <h4>${m.name}</h4>
-                        <small>${m.phone}</small>
-                        <p>${m.msg}</p>
-                        <small>${new Date(m.date).toLocaleDateString()}</small>
-                    </div>
-                `;
-            });
+            list.innerHTML = '<p>Loading...</p>';
+            
+            try {
+                const snap = await db.collection(SITE_COLLECTION).collection('messages')
+                    .orderBy('date', 'desc')
+                    .limit(50)
+                    .get();
+                
+                list.innerHTML = '';
+                
+                if (snap.empty) {
+                    list.innerHTML = '<p>No messages found.</p>';
+                    return;
+                }
+
+                snap.forEach(doc => {
+                    const m = doc.data();
+                    const dateStr = m.date ? new Date(m.date).toLocaleString() : 'N/A';
+                    
+                    list.innerHTML += `
+                        <div class="card" style="margin-bottom:10px; border-left: 4px solid var(--primary);">
+                            <div style="display:flex; justify-content:space-between;">
+                                <h4>${m.name || 'Anonymous'}</h4>
+                                <small style="color:#888">${dateStr}</small>
+                            </div>
+                            <p style="font-weight:bold; color:var(--primary);">${m.phone || 'No Phone'}</p>
+                            <p style="margin-top:5px; background:#f9f9f9; padding:10px; border-radius:5px;">${m.msg}</p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error loading messages: ", error);
+                list.innerHTML = '<p style="color:red">Error loading messages. Check console.</p>';
+            }
         }
     </script>
 </body>
