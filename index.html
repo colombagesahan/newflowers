@@ -4,200 +4,1647 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Flowers Home Design & Constructions</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <meta name="description" content="Leading construction company in Homagama. 25 Years of Trust. UDA approved plans, Construction, BOQ, and 3D Designs.">
+    
+    <!-- Favicon (Placeholder) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏗️</text></svg>">
+
+    <!-- AOS Library CSS (For Scroll Animations) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts: 'Inter' for English, 'Abhaya Libre' for Sinhala -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Abhaya+Libre:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #2c3e50; /* Dark Slate Blue */
+            --primary-dark: #1a252f;
+            --accent-color: #e67e22; /* Construction Orange */
+            --accent-hover: #d35400;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            
+            --font-en: 'Inter', sans-serif;
+            --font-si: 'Abhaya Libre', serif; /* Sinhala Font */
+            
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --gradient-overlay: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.75));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-en);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Sinhala Mode Class */
+        body.lang-si {
+            font-family: var(--font-si);
+        }
+        
+        body.lang-si h1, body.lang-si h2, body.lang-si h3, body.lang-si .btn {
+            font-weight: 800; /* Sinhala font needs more weight */
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 1. LOADER --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--white); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--accent-color); border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- 2. PROMO BAR --- */
+        .promo-bar {
+            background: var(--accent-color); color: white;
+            text-align: center; padding: 8px 10px;
+            font-size: 0.9rem; font-weight: 600;
+            position: relative; z-index: 1002;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: fixed; width: 100%; top: 38px; z-index: 1000;
+            transition: top 0.4s;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center; height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem; font-weight: 800; color: var(--primary-color);
+            text-transform: uppercase; line-height: 1.1;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .logo i { color: var(--accent-color); font-size: 1.8rem; }
+        .logo span { color: var(--accent-color); font-size: 0.8em; display: block; font-weight: 600;}
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { font-weight: 600; color: var(--primary-color); font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        /* Language Switcher Button */
+        .lang-btn {
+            border: 2px solid var(--primary-color);
+            padding: 5px 15px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; background: transparent;
+            color: var(--primary-color); transition: 0.3s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .lang-btn:hover { background: var(--primary-color); color: white; }
+
+        .btn-contact {
+            background: var(--primary-color); color: white !important;
+            padding: 10px 25px !important; border-radius: 4px;
+            transition: 0.3s !important;
+        }
+        .btn-contact:hover { background: var(--accent-color); transform: translateY(-2px); }
+
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--primary-color); cursor: pointer; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: var(--gradient-overlay), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover; background-position: center;
+            height: 100vh; display: flex; align-items: center;
+            text-align: center; color: var(--white); padding-top: 118px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem; margin-bottom: 20px;
+            line-height: 1.2; text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .hero-content p {
+            font-size: 1.3rem; margin-bottom: 35px;
+            font-weight: 300; max-width: 800px; margin-left: auto; margin-right: auto;
+            color: #e0e0e0;
+        }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            padding: 15px 35px; font-size: 1rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 4px; border: 2px solid transparent; cursor: pointer;
+            transition: 0.3s; display: inline-block;
+        }
+        .btn-primary { background: var(--accent-color); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-3px); }
+        .btn-outline { border-color: white; color: white; background: transparent; }
+        .btn-outline:hover { background: white; color: var(--primary-color); }
+
+        /* --- SECTIONS --- */
+        section { padding: 80px 0; }
+        .bg-light { background-color: var(--light-bg); }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 {
+            font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;
+        }
+        .section-header .line {
+            width: 80px; height: 5px; background: var(--accent-color);
+            margin: 0 auto; border-radius: 2px;
+        }
+
+        /* --- SERVICES GRID --- */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; padding: 0 10px;
+        }
+        .service-card {
+            background: white; padding: 40px 25px; text-align: center;
+            border-radius: 8px; box-shadow: var(--shadow);
+            transition: 0.3s; border-bottom: 4px solid transparent;
+            height: 100%;
+        }
+        .service-card:hover { transform: translateY(-10px); border-bottom-color: var(--accent-color); }
+        .service-icon {
+            font-size: 3rem; color: var(--accent-color); margin-bottom: 25px;
+        }
+        .service-card h3 {
+            font-size: 1.4rem; margin-bottom: 15px; color: var(--primary-color);
+        }
+        .service-card p { color: var(--text-light); font-size: 0.95rem; }
+
+        /* --- GALLERY --- */
+        .gallery-filter { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn {
+            background: transparent; border: 2px solid var(--primary-color);
+            color: var(--primary-color); padding: 8px 25px; border-radius: 30px;
+            cursor: pointer; font-weight: 700; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary-color); color: white; }
+
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+        }
+        .gallery-item {
+            position: relative; height: 280px; border-radius: 8px; overflow: hidden; cursor: pointer;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white; padding: 20px; transform: translateY(100%); transition: 0.3s;
+        }
+        .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+
+        /* --- CONTACT --- */
+        .contact-section { background: var(--primary-color); color: white; }
+        .contact-section h2 { color: white; }
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px;
+        }
+        .info-box h3 { color: var(--accent-color); margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; display: inline-block;}
+        .info-item { display: flex; gap: 15px; margin-bottom: 20px; font-size: 1.1rem; }
+        .info-item i { color: var(--accent-color); margin-top: 5px; }
+        .info-item a { color: #ccc; } .info-item a:hover { color: white; }
+        
+        .map-wrapper { height: 100%; min-height: 350px; border-radius: 8px; overflow: hidden; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--primary-dark); color: #888; padding: 60px 0 20px; }
+        .footer-logo { color: white; font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; }
+        .footer-logo span { color: var(--accent-color); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; padding-top: 20px; text-align: center; font-size: 0.9rem; }
+
+        /* --- WIDGETS --- */
+        .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
+        .chat-bubble {
+            background: var(--accent-color); color: white; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer; box-shadow: 0 10px 20px rgba(230, 126, 34, 0.4);
+            transition: 0.3s; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(230, 126, 34, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); } }
+        
+        .chat-window {
+            position: absolute; bottom: 80px; right: 0; width: 320px; height: 450px;
+            background: white; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            display: none; flex-direction: column; overflow: hidden; border: 1px solid #eee;
+        }
+        .chat-header { background: var(--primary-color); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;}
+        .chat-body { flex: 1; padding: 15px; background: #f9f9f9; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 10px; font-size: 0.9rem; max-width: 85%; }
+        .bot-msg { background: white; border: 1px solid #e0e0e0; align-self: flex-start; border-bottom-left-radius: 0; }
+        .user-msg { background: var(--primary-color); color: white; align-self: flex-end; border-bottom-right-radius: 0; }
+        .chat-footer { padding: 10px; background: white; border-top: 1px solid #eee; display: flex; }
+        .chat-footer input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+        .chat-footer button { background: var(--accent-color); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; margin-left: 10px; cursor: pointer; }
+
+        .book-float {
+            position: fixed; bottom: 110px; right: 30px;
+            background: linear-gradient(45deg, #11998e, #38ef7d); color: white;
+            padding: 12px 25px; border-radius: 50px; font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 1999;
+            display: flex; gap: 8px; align-items: center; border: 2px solid white;
+        }
+        .book-float:hover { transform: scale(1.05); }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none; position: fixed; z-index: 3000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px); justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 450px; border-radius: 12px;
+            overflow: hidden; animation: zoomIn 0.3s;
+        }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { background: var(--primary-color); color: white; padding: 20px; text-align: center; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; }
+        .modal-body { padding: 25px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+        .btn-wa { background: #25D366; color: white; border: none; width: 100%; padding: 15px; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 1rem; display: flex; justify-content: center; gap: 10px; }
+        .btn-wa:hover { background: #128C7E; }
+
+        /* --- RESPONSIVE 250px Support --- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 80px; left: 0; width: 100%; background: white; padding: 20px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-top: 1px solid #eee;
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .chat-widget { right: 20px; bottom: 20px; }
+            .book-float { right: 20px; bottom: 100px; padding: 10px 20px; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 350px) {
+            header { top: 50px; } /* Space for larger promo text wrap */
+            .logo { font-size: 1rem; }
+            .hero-content h1 { font-size: 1.5rem; }
+            .btn { padding: 10px 20px; width: 100%; margin-bottom: 10px; }
+            .services-grid, .gallery-grid, .contact-grid { grid-template-columns: 1fr; }
+            .chat-window { width: 90vw; right: -10px; bottom: 70px; }
+            .modal-content { width: 95%; max-height: 85vh; overflow-y: auto; }
+        }
+		 .highlight-item:hover {
+            background: #1a252f !important; /* Darker shade on hover */
+        }
+        /* Special hover for the middle orange card */
+        .highlight-item:nth-child(2):hover {
+            background: #d35400 !important;
+        }
+
+        @media (max-width: 768px) {
+            #highlights { margin-top: 0 !important; background: var(--light-bg); padding: 40px 0 !important; }
+            .highlight-grid { display: block !important; box-shadow: none !important; }
+            .highlight-item { margin-bottom: 15px; border-radius: 8px; transform: none !important; border: none !important; }
+        }
+		/* --- LATEST DESIGNS SLIDER CSS --- */
+
+.design-slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: grab;
+}
+
+.slide-card {
+    min-width: 33.333%; /* Shows 3 cards on desktop */
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.design-image {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.design-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+/* Hover Effects */
+.design-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.design-image:hover img {
+    transform: scale(1.1);
+}
+
+/* Text Overlay */
+.design-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    padding: 20px;
+    color: white;
+}
+
+.design-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.design-info p {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Badges */
+.badge-new {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--accent-color);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    z-index: 2;
+}
+
+/* Navigation Buttons */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    color: var(--primary-color);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+/* See All Button */
+.btn-see-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 35px;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    border-radius: 50px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.btn-see-all:hover {
+    background: var(--primary-color);
+    color: white;
+    gap: 15px; /* Arrow slide effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .slide-card { min-width: 50%; } /* 2 cards on tablet */
+}
+
+@media (max-width: 600px) {
+    .slide-card { min-width: 100%; } /* 1 card on mobile */
+    .design-image { height: 300px; }
+    .slider-btn { display: none; } /* Hide arrows on small mobile, use swipe */
+}
+    </style>
 </head>
 <body>
 
-    <!-- Nav -->
-    <nav>
-        <div class="container nav-flex">
+    <!-- LOADER -->
+    <div id="loader"><div class="spinner"></div></div>
+
+    <!-- PROMO BAR -->
+    <div class="promo-bar" data-en="Special: Free BOQ for all new House Plans this month!" data-si="විශේෂ දීමනාව: මෙම මස සියලුම නව නිවාස සැලසුම් සඳහා BOQ නොමිලේ!">
+        Special: Free BOQ for all new House Plans this month!
+    </div>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container navbar">
             <div class="logo">
-                <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
-                <span>New Flowers Designs</span>
+                <i class="fas fa-city"></i>
+                <div>NEW FLOWERS<br><span>DESIGN & CONSTRUCTIONS</span></div>
             </div>
-            <a href="adminnewflowers.html" style="font-size:0.8rem; color: var(--primary);">Admin Login</a>
-        </div>
-    </nav>
+            
+            <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="#home" data-en="Home" data-si="මුල් පිටුව">Home</a>
+                <a href="#about" data-en="About" data-si="අපි ගැන">About</a>
+                <a href="#services" data-en="Services" data-si="සේවාවන්">Services</a>
+                <a href="#gallery" data-en="Projects" data-si="ව්‍යාපෘති">Projects</a>
+                
+                <!-- Language Switcher -->
+                <button class="lang-btn" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i> <span id="langText">SINHALA</span>
+                </button>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="container">
-            <h1 id="hero-title">Building Dreams, Engineering Reality</h1>
-            <p id="hero-desc">The Leader in the Construction Industry with 25 Years of Trust and Experience.</p>
-            <a href="#contact" class="btn">Get a Quote</a>
+                <a href="#contact" class="btn-contact" data-en="Contact Us" data-si="අප අමතන්න">Contact Us</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <!-- Services -->
-    <section class="section" id="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <div class="grid-box">
-                <div class="card">
-                    <i class="fas fa-drafting-compass fa-3x" style="color:var(--secondary)"></i>
-                    <h3>Architectural Design</h3>
-                    <p>Standardized home & building designs compliant with UDA Regulations.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-hard-hat fa-3x" style="color:var(--secondary)"></i>
-                    <h3>Construction</h3>
-                    <p>Complete building construction with high-quality materials.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-calculator fa-3x" style="color:var(--secondary)"></i>
-                    <h3>BOQ & Estimates</h3>
-                    <p>Bank loan estimates and detailed Bill of Quantities.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-cube fa-3x" style="color:var(--secondary)"></i>
-                    <h3>3D & Vastu</h3>
-                    <p>Modern 3D modeling and Vastu Vidya compliant planning.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- New Designs -->
-    <section class="section" style="background:#fff;">
-        <div class="container">
-            <h2 class="section-title">New Designs</h2>
-            <div id="designs-grid" class="grid-box">
-                <!-- Loaded via JS -->
-            </div>
-            <div style="text-align:center; margin-top:20px;">
-                <a href="alldesigns.html" class="btn">View All Designs</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About & Promise -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">About Us</h2>
-            <p id="about-text" style="text-align:center; max-width:800px; margin:0 auto 30px auto;">
-                Loading...
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="container hero-content" data-aos="fade-up">
+            <h1 data-en="Leader in Construction Industry" data-si="ඉදිකිරීම් ක්ෂේත්‍රයේ ප්‍රමුඛයා">Leader in Construction Industry</h1>
+            <p data-en="25 Years of Trust & Experience. We build your dream home according to UDA regulations with modern Vastu compliant designs." 
+               data-si="වසර 25 ක විශ්වාසය සහ පළපුරුද්ද සමඟින්. UDA රෙගුලාසි වලට අනුකූලව, වාස්තු විද්‍යානුකූල නවීන නිවාස ඔබ වෙනුවෙන්ම ඉදිකරමු.">
+               25 Years of Trust & Experience. We build your dream home according to UDA regulations with modern Vastu compliant designs.
             </p>
-            <div class="grid-box">
-                <div class="card">
-                    <h4>Our Mission</h4>
-                    <p id="mission-text">...</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn btn-primary" data-en="Get a Quote" data-si="මිල ගණන් විමසන්න">Get a Quote</a>
+                <a href="#gallery" class="btn btn-outline" data-en="View Our Work" data-si="අපගේ නිර්මාණ">View Our Work</a>
+            </div>
+        </div>
+    </section>
+	
+	<!-- HIGHLIGHTS SECTION (Floating Bar) -->
+    <section id="highlights" style="position: relative; z-index: 50; margin-top: -80px; padding-bottom: 0;">
+        <div class="container">
+            <div class="highlight-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; box-shadow: 0 15px 40px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+                
+                <!-- Item 1: Experience -->
+                <div class="highlight-item" data-aos="fade-up" data-aos-delay="0" 
+                     style="background: var(--primary-color); padding: 40px 30px; text-align: center; color: white; border-right: 1px solid rgba(255,255,255,0.1); transition: 0.3s;">
+                    <i class="fas fa-certificate" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 10px;" data-en="25 Years Experience" data-si="වසර 25 ක පළපුරුද්ද">25 Years Experience</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);" 
+                       data-en="Trusted by generations. We bring decades of expertise to your project." 
+                       data-si="පරම්පරා ගණනාවක විශ්වාසය. දශක ගණනාවක අත්දැකීම් ඔබේ නිවසට.">
+                       Trusted by generations. We bring decades of expertise to your project.
+                    </p>
                 </div>
-                <div class="card">
-                    <h4>Our Vision</h4>
-                    <p id="vision-text">...</p>
+
+                <!-- Item 2: Approvals (Accent Background for Pop) -->
+                <div class="highlight-item" data-aos="fade-up" data-aos-delay="100" 
+                     style="background: var(--accent-color); padding: 40px 30px; text-align: center; color: white; position: relative; transform: scaleY(1.05); z-index: 2; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+                    <i class="fas fa-file-signature" style="font-size: 2.5rem; color: white; margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 10px;" data-en="UDA Approved Plans" data-si="UDA අනුමත සැලසුම්">UDA Approved Plans</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.9);" 
+                       data-en="100% legal validity. Plans designed to pass Local Authority regulations easily." 
+                       data-si="100% නීත්‍යානුකූලයි. පළාත් පාලන ආයතන වලින් පහසුවෙන් අනුමත කරගත හැක.">
+                       100% legal validity. Plans designed to pass Local Authority regulations easily.
+                    </p>
                 </div>
-                <div class="card">
-                    <h4>Why Choose Us?</h4>
-                    <p>Professional & Trustworthy service. We handle approvals, construction, and large format printing under one roof.</p>
+
+                <!-- Item 3: Financials -->
+                <div class="highlight-item" data-aos="fade-up" data-aos-delay="200" 
+                     style="background: var(--primary-color); padding: 40px 30px; text-align: center; color: white; border-left: 1px solid rgba(255,255,255,0.1); transition: 0.3s;">
+                    <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 10px;" data-en="Bank Loan BOQ" data-si="බැංකු ණය ඇස්තමේන්තු">Bank Loan BOQ</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);" 
+                       data-en="Accurate estimates accepted by all major banks for housing loans." 
+                       data-si="සියලුම ප්‍රධාන බැංකු විසින් පිළිගනු ලබන නිවැරදි ඉදිකිරීම් ඇස්තමේන්තු.">
+                       Accurate estimates accepted by all major banks for housing loans.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
+	<!-- LATEST DESIGNS SLIDER SECTION -->
+    <section id="latest-designs" style="background-color: #f8f9fa; padding-top: 100px; padding-bottom: 80px; overflow: hidden;">
+        <div class="container">
+            
+            <!-- Section Header -->
+            <div class="section-header" data-aos="fade-down">
+                <h2 data-en="New Home Designs 2026" data-si="නව නිවාස සැලසුම් 2026">New Home Designs 2026</h2>
+                <div class="line"></div>
+                <p style="color: var(--text-light); max-width: 600px; margin: 0 auto;"
+                   data-en="Explore our latest architectural masterpieces. Designed for modern living."
+                   data-si="අපගේ නවතම ගෘහ නිර්මාණ එකතුව. නූතන ජීවන රටාවට ගැලපෙන ලෙස නිර්මාණය කර ඇත.">
+                   Explore our latest architectural masterpieces. Designed for modern living.
+                </p>
+            </div>
+
+            <!-- Slider Container -->
+            <div class="design-slider-wrapper" data-aos="fade-up">
+                
+                <!-- Navigation Arrows -->
+                <button class="slider-btn prev-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-btn next-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+
+                <!-- The Track (Moving Part) -->
+                <div class="slider-track" id="sliderTrack">
+                    
+                    <!-- Design 1 -->
+                    <div class="slide-card">
+                        <div class="design-image">
+                            <span class="badge-new">NEW</span>
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Modern Box House">
+                            <div class="design-info">
+                                <h3 data-en="Modern Box Type" data-si="නවීන බොක්ස් මාදිලිය">Modern Box Type</h3>
+                                <p>Homagama</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design 2 -->
+                    <div class="slide-card">
+                        <div class="design-image">
+                            <span class="badge-new">TRENDING</span>
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Luxury Villa">
+                            <div class="design-info">
+                                <h3 data-en="Luxury Two Story" data-si="සුඛෝපභෝගී දෙමහල් නිවස">Luxury Two Story</h3>
+                                <p>Kottawa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design 3 -->
+                    <div class="slide-card">
+                        <div class="design-image">
+                            <span class="badge-new">BUDGET</span>
+                            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Single Story">
+                            <div class="design-info">
+                                <h3 data-en="Single Story Home" data-si="තනි මහල් නිවස">Single Story Home</h3>
+                                <p>Athurugiriya</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design 4 -->
+                    <div class="slide-card">
+                        <div class="design-image">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Colonial Style">
+                            <div class="design-info">
+                                <h3 data-en="Colonial Style" data-si="පැරණි වලව් මාදිලිය">Colonial Style</h3>
+                                <p>Padukka</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design 5 -->
+                    <div class="slide-card">
+                        <div class="design-image">
+                            <span class="badge-new">HOT</span>
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Ultra Modern">
+                            <div class="design-info">
+                                <h3 data-en="Ultra Modern Villa" data-si="අති නවීන විලා">Ultra Modern Villa</h3>
+                                <p>Malabe</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- See All Button -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="alldesigns.html" class="btn-see-all">
+                    <span data-en="See All Designs" data-si="සියලුම සැලසුම් බලන්න">See All Designs</span> 
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+<!-- ABOUT SECTION -->
+    <section id="about" style="background-color: #fff;">
+        <div class="container">
+            <!-- Section Title -->
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Who We Are" data-si="අපි ගැන">Who We Are</h2>
+                <div class="line"></div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="about-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center;">
+                
+                <!-- Image Side -->
+                <div class="about-img-wrapper" data-aos="fade-right" style="position: relative;">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         alt="New Flowers Team" 
+                         style="border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); width: 100%;">
+                    
+                    <!-- Experience Badge Overlay -->
+                    <div style="position: absolute; bottom: -20px; right: -20px; background: var(--accent-color); color: white; padding: 20px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                        <span style="font-size: 2.5rem; font-weight: 800; display: block; line-height: 1;">25+</span>
+                        <span style="font-size: 0.9rem; font-weight: 600;" data-en="Years Trust" data-si="වසරක විශ්වාසය">Years Trust</span>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="about-content" data-aos="fade-left">
+                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 20px;" 
+                        data-en="Leader in the Construction Field" 
+                        data-si="ඉදිකිරීම් ක්ෂේත්‍රයේ ප්‍රමුඛයා">
+                        Leader in the Construction Field
+                    </h3>
+                    
+                    <p style="margin-bottom: 20px; color: var(--text-light); text-align: justify;"
+                       data-en="New Flowers Home Design & Constructions is a premier firm dedicated to turning your dream home into reality. With over 25 years of experience, we specialize in standardized architectural designs and complete building construction."
+                       data-si="New Flowers Home Design & Constructions යනු වසර 25කට අධික කාලයක් පුරා පාරිභෝගික විශ්වාසය දිනා ගනිමින්, ඔබගේ සිහින නිවස යථාර්ථයක් බවට පත් කිරීමට කැපවී සිටින ප්‍රමුඛ ආයතනයකි.">
+                       New Flowers Home Design & Constructions is a premier firm dedicated to turning your dream home into reality. With over 25 years of experience...
+                    </p>
+
+                    <!-- Feature List -->
+                    <ul style="margin-bottom: 30px;">
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="UDA Regulation Compliant Plans" data-si="UDA රෙගුලාසි වලට අනුකූල සැලසුම්">UDA Regulation Compliant Plans</span>
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="Vastu & Modern Architecture" data-si="වාස්තු විද්‍යානුකූල නවීන සැලසුම්">Vastu & Modern Architecture</span>
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="Bank Loan Estimates (BOQ)" data-si="බැංකු ණය සඳහා ඇස්තමේන්තු (BOQ)">Bank Loan Estimates (BOQ)</span>
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="Complete Construction Services" data-si="සම්පූර්ණ ගොඩනැගිලි ඉදිකිරීම">Complete Construction Services</span>
+                        </li>
+                    </ul>
+
+                    <a href="#contact" class="btn btn-primary" 
+                       style="background: var(--primary-color); padding: 12px 30px; color: white; border-radius: 5px; text-decoration: none;"
+                       data-en="Contact Us Today" 
+                       data-si="අදම අමතන්න">
+                       Contact Us Today
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
+    <!-- Why Choose Us? SECTION -->
+    <section id="Choose">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Why Choose Us?" data-si="අපව තෝරාගත යුත්තේ ඇයි?">Why Choose Us?</h2>
+                <div class="line"></div>
+            </div>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;" data-aos="fade-up">
+                <p style="font-size: 1.2rem; margin-bottom: 20px;" 
+                   data-en="New Flowers Home Design & Constructions has been a pillar of trust for over 25 years. We handle everything from the initial sketch to the final coat of paint." 
+                   data-si="New Flowers Home Design & Constructions වසර 25කට වැඩි කාලයක් පුරා පාරිභෝගික විශ්වාසය දිනා ඇත. මූලික සැලැස්මේ සිට සම්පූර්ණ ඉදිකිරීම දක්වා සියලු වගකීම් අපි භාර ගනිමු.">
+                   New Flowers Home Design & Constructions has been a pillar of trust for over 25 years. We handle everything from the initial sketch to the final coat of paint.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+                    <div style="background: var(--light-bg); padding: 15px 30px; border-radius: 5px;">
+                        <h3 style="color: var(--accent-color); font-size: 2rem;">25+</h3>
+                        <span data-en="Years Experience" data-si="වසරක පළපුරුද්ද">Years Experience</span>
+                    </div>
+                    <div style="background: var(--light-bg); padding: 15px 30px; border-radius: 5px;">
+                        <h3 style="color: var(--accent-color); font-size: 2rem;">100%</h3>
+                        <span data-en="UDA Approved" data-si="UDA අනුමැතිය">UDA Approved</span>
+                    </div>
+                    <div style="background: var(--light-bg); padding: 15px 30px; border-radius: 5px;">
+                        <h3 style="color: var(--accent-color); font-size: 2rem;">500+</h3>
+                        <span data-en="Projects Done" data-si="නිම කළ ව්‍යාපෘති">Projects Done</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Commitment to Quality (SEO) -->
-    <section class="section" style="background:var(--primary); color:white;">
+    <!-- SERVICES SECTION -->
+    <section id="services" class="bg-light">
         <div class="container">
-            <h2 class="section-title" style="color:var(--secondary)">Commitment to Quality</h2>
-            <p>At New Flowers Home Design, we adhere strictly to local authority regulations. Every plan is drafted to meet urban development standards, ensuring a hassle-free approval process for your bank loans and construction permits. Our 25 years of experience guarantees structural integrity and aesthetic perfection.</p>
-        </div>
-    </section>
-
-    <!-- Gallery/Completed -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Completed Projects</h2>
-            <div id="completed-grid" class="grid-box"></div>
-            <div style="text-align:center; margin-top:20px;">
-                <a href="allcompletedprojects.html" class="btn">See All Projects</a>
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Our Services" data-si="අපගේ සේවාවන්">Our Services</h2>
+                <div class="line"></div>
             </div>
-        </div>
-    </section>
-
-    <!-- Reviews -->
-    <section class="section" style="background:#e9ecef;">
-        <div class="container">
-            <h2 class="section-title">Client Reviews</h2>
-            <div id="reviews-grid" class="grid-box"></div>
-        </div>
-    </section>
-
-    <!-- Contact & Booking -->
-    <section class="section" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="grid-box">
-                <div>
-                    <h3>Book Consultation</h3>
-                    <p>Schedule a Zoom meeting or visit us.</p>
-                    <p><strong>Office:</strong> 126/1/1, Court Road, Homagama</p>
-                    <p><strong>Phone:</strong> 077 787 7204 / 076 262 7204</p>
-                    <p><strong>Email:</strong> newflowersdesign@gmail.com</p>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="service-icon"><i class="fas fa-pencil-ruler"></i></div>
+                    <h3 data-en="Architectural Plans" data-si="ගෘහ නිර්මාණ සැලසුම්">Architectural Plans</h3>
+                    <p data-en="Standardized home and building designs approved by any local authority (UDA Regulations)." 
+                       data-si="ඕනෑම පළාත් පාලන ආයතනයකින් අනුමත කර ගත හැකි පරිදි UDA රෙගුලාසි වලට අනුකූලව සැලසුම් සැකසීම.">
+                       Standardized home and building designs approved by any local authority (UDA Regulations).
+                    </p>
                 </div>
-                <form id="contact-form" class="card">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="c-name" required>
+
+                <!-- Service 2 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-hard-hat"></i></div>
+                    <h3 data-en="Construction" data-si="ගොඩනැගිලි ඉදිකිරීම">Construction</h3>
+                    <p data-en="Complete construction of homes and buildings with high-quality materials." 
+                       data-si="උසස් තත්වයේ අමුද්‍රව්‍ය භාවිතා කරමින් නිවාස සහ ගොඩනැගිලි සම්පූර්ණයෙන් ඉදිකර දීම.">
+                       Complete construction of homes and buildings with high-quality materials.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-home"></i></div>
+                    <h3 data-en="Vastu & Modern Design" data-si="වාස්තු සහ නවීන සැලසුම්">Vastu & Modern Design</h3>
+                    <p data-en="Basic Vastu compliant plans and modern, attractive house designs." 
+                       data-si="මූලික වාස්තු විද්‍යානුකූල සැලසුම් සහ නවීන සිත්ගන්නාසුළු නිවාස සැලසුම්.">
+                       Basic Vastu compliant plans and modern, attractive house designs.
+                    </p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-calculator"></i></div>
+                    <h3 data-en="BOQ Estimates" data-si="බැංකු ණය ඇස්තමේන්තු">BOQ Estimates</h3>
+                    <p data-en="Preparation of BOQ estimates for Bank Loans and budgeting." 
+                       data-si="බැංකු ණය ලබා ගැනීම සඳහා අවශ්‍ය ඇස්තමේන්තු (BOQ) සකස් කර දීම.">
+                       Preparation of BOQ estimates for Bank Loans and budgeting.
+                    </p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="service-icon"><i class="fas fa-cube"></i></div>
+                    <h3 data-en="3D & AutoCAD" data-si="3D සහ AutoCAD">3D & AutoCAD</h3>
+                    <p data-en="High-quality 3D perspectives and detailed AutoCAD drawings." 
+                       data-si="3D ත්‍රිමාණ සැලසුම් සහ AutoCAD තාක්ෂණයෙන් සැලසුම් ඇඳීම.">
+                       High-quality 3D perspectives and detailed AutoCAD drawings.
+                    </p>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <h3 data-en="Plan Printing" data-si="සැලසුම් මුද්‍රණය">Plan Printing</h3>
+                    <p data-en="Large format plan printing and photocopying services." 
+                       data-si="විශාල ප්‍රමාණයේ සැලසුම් මුද්‍රණය සහ ෆොටෝකොපි සේවාව.">
+                       Large format plan printing and photocopying services.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+	
+	<!-- PRICING PACKAGES -->
+    <section id="pricing" style="background-color: white;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Construction Packages" data-si="ඉදිකිරීම් පැකේජ">Construction Packages</h2>
+                <div class="line"></div>
+                <p style="color: #666;" data-en="Choose the best fit for your budget" data-si="ඔබේ අයවැයට ගැලපෙන පැකේජය තෝරාගන්න">Choose the best fit for your budget</p>
+            </div>
+
+            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                
+                <!-- Budget -->
+                <div class="price-card" data-aos="fade-up" style="border: 1px solid #eee; border-radius: 10px; padding: 30px; text-align: center; transition: 0.3s;">
+                    <h3 style="color: #555; font-size: 1.5rem;" data-en="Economy" data-si="සාමාන්‍ය">Economy</h3>
+                    <div style="margin: 20px 0; font-size: 2rem; color: var(--primary-color); font-weight: 800;">$$$</div>
+                    <ul style="text-align: left; margin-bottom: 20px; line-height: 2;">
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Standard Materials" data-si="සම්මත අමුද්‍රව්‍ය">Standard Materials</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Basic Tile Finish" data-si="මූලික ටයිල් කිරීම">Basic Tile Finish</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Aluminum Windows" data-si="ඇලුමිනියම් ජනෙල්">Aluminum Windows</span></li>
+                    </ul>
+                    <a href="#contact" class="btn-outline" style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 10px 20px; border-radius: 5px; display:block;">Inquire Now</a>
+                </div>
+
+                <!-- Standard (Highlighted) -->
+                <div class="price-card" data-aos="fade-up" style="border: 2px solid var(--accent-color); border-radius: 10px; padding: 40px 30px; text-align: center; position: relative; background: #fffbf7; transform: scale(1.05);">
+                    <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%) translateY(-50%); background: var(--accent-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem;">BEST SELLER</div>
+                    <h3 style="color: var(--accent-color); font-size: 1.8rem;" data-en="Premium" data-si="ප්‍රිමියම්">Premium</h3>
+                    <div style="margin: 20px 0; font-size: 2.5rem; color: var(--primary-color); font-weight: 800;">$$$$</div>
+                    <ul style="text-align: left; margin-bottom: 20px; line-height: 2;">
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="SLS Certified Materials" data-si="SLS සහතික ලත් අමුද්‍රව්‍ය">SLS Certified Materials</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Rocell/Lanka Tiles" data-si="රොසෙල්/ලංකා ටයිල්">Rocell/Lanka Tiles</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Teak Wood Doors" data-si="තේක්ක ලී දොරවල්">Teak Wood Doors</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="5 Year Warranty" data-si="වසර 5ක වගකීම">5 Year Warranty</span></li>
+                    </ul>
+                    <a href="#contact" style="background: var(--accent-color); color: white; padding: 12px 20px; border-radius: 5px; display:block;">Inquire Now</a>
+                </div>
+
+                <!-- Luxury -->
+                <div class="price-card" data-aos="fade-up" style="border: 1px solid #eee; border-radius: 10px; padding: 30px; text-align: center;">
+                    <h3 style="color: #333; font-size: 1.5rem;" data-en="Luxury" data-si="සුඛෝපභෝගී">Luxury</h3>
+                    <div style="margin: 20px 0; font-size: 2rem; color: var(--primary-color); font-weight: 800;">$$$$$</div>
+                    <ul style="text-align: left; margin-bottom: 20px; line-height: 2;">
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Imported Fittings" data-si="ආනයනික උපාංග">Imported Fittings</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Titanium/Granite" data-si="ටයිටේනියම්/ග්‍රැනයිට්">Titanium/Granite</span></li>
+                        <li><i class="fas fa-check" style="color: green; margin-right: 10px;"></i> <span data-en="Smart Home Features" data-si="Smart Home පහසුකම්">Smart Home Features</span></li>
+                    </ul>
+                    <a href="#contact" class="btn-outline" style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 10px 20px; border-radius: 5px; display:block;">Inquire Now</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
+	<!-- WORK PROCESS SECTION -->
+    <section id="process" style="background-color: var(--white); padding-bottom: 100px;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Our Work Process" data-si="අපගේ ක්‍රියාවලිය">Our Work Process</h2>
+                <div class="line"></div>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--text-light);" 
+                   data-en="From the initial sketch to the final construction, we follow a professional standard."
+                   data-si="මූලික සැලැස්මේ සිට අවසන් ඉදිකිරීම දක්වා අපි වෘත්තීය ප්‍රමිතියක් අනුගමනය කරමු.">
+                   From the initial sketch to the final construction, we follow a professional standard.
+                </p>
+            </div>
+
+            <!-- Process Grid -->
+            <div class="process-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center;">
+                
+                <!-- Step 1 -->
+                <div class="process-item" data-aos="fade-up" data-aos-delay="0" style="position: relative;">
+                    <div class="step-icon" style="width: 80px; height: 80px; background: var(--light-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px dashed var(--accent-color);">
+                        <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-color);">01</span>
                     </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" id="c-phone" required>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--primary-color);" 
+                        data-en="Meeting & Idea" 
+                        data-si="සාකච්ඡාව සහ අදහස">
+                        Meeting & Idea
+                    </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);"
+                       data-en="We listen to your requirements and check the land location."
+                       data-si="ඔබගේ අවශ්‍යතා සාකච්ඡා කර ඉඩම පරීක්ෂා කිරීම.">
+                       We listen to your requirements and check the land location.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="process-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-icon" style="width: 80px; height: 80px; background: var(--light-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px dashed var(--accent-color);">
+                        <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-color);">02</span>
                     </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea id="c-msg" rows="4" required></textarea>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--primary-color);" 
+                        data-en="Design & Approval" 
+                        data-si="සැලසුම් සහ අනුමැතිය">
+                        Design & Approval
+                    </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);"
+                       data-en="Creating 2D/3D plans according to UDA regulations."
+                       data-si="UDA නීති වලට අනුව 2D සහ 3D සැලසුම් සකස් කිරීම.">
+                       Creating 2D/3D plans according to UDA regulations.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="process-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-icon" style="width: 80px; height: 80px; background: var(--light-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px dashed var(--accent-color);">
+                        <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-color);">03</span>
                     </div>
-                    <button type="submit" class="btn" style="width:100%">Send Message</button>
-                </form>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--primary-color);" 
+                        data-en="BOQ & Agreement" 
+                        data-si="ඇස්තමේන්තු සහ ගිවිසුම">
+                        BOQ & Agreement
+                    </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);"
+                       data-en="Providing accurate bank estimates and signing the contract."
+                       data-si="නිවැරදි ඇස්තමේන්තු ලබා දීම සහ ගිවිසුම් අත්සන් කිරීම.">
+                       Providing accurate bank estimates and signing the contract.
+                    </p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="process-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-icon" style="width: 80px; height: 80px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 20px rgba(230, 126, 34, 0.3);">
+                        <i class="fas fa-flag-checkered" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--primary-color);" 
+                        data-en="Construction" 
+                        data-si="ඉදිකිරීම් ආරම්භය">
+                        Construction
+                    </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);"
+                       data-en="Building your dream home with high-quality standards."
+                       data-si="උසස් ප්‍රමිතියෙන් යුතුව ඔබගේ සිහින නිවස ඉදිකිරීම.">
+                       Building your dream home with high-quality standards.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
+	<!-- OUR PROMISE SECTION -->
+    <section id="promise" style="background-color: var(--primary-color); color: white; position: relative; overflow: hidden;">
+        <!-- Optional Background Pattern/Overlay -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; background-image: radial-gradient(var(--accent-color) 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="color: white;" data-en="Our Promise to You" data-si="අපගේ පොරොන්දුව">Our Promise to You</h2>
+                <div class="line" style="background: white;"></div>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto;"
+                   data-en="We don't just build structures; we build trust. Here is what we guarantee."
+                   data-si="අපි ගොඩනගන්නේ ගොඩනැගිලි පමණක් නොවේ, අපි විශ්වාසය ගොඩනගමු.">
+                   We don't just build structures; we build trust. Here is what we guarantee.
+                </p>
+            </div>
+
+            <div class="promise-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                
+                <!-- Promise 1 -->
+                <div class="promise-card" data-aos="fade-up" data-aos-delay="0" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 8px; border-left: 4px solid var(--accent-color); transition: 0.3s;">
+                    <i class="fas fa-stopwatch" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 10px;" data-en="On-Time Delivery" data-si="නියමිත දිනට වැඩ නිමකිරීම">On-Time Delivery</h3>
+                    <p style="font-size: 0.9rem; color: #ddd;"
+                       data-en="We value your time. We strictly follow the timeline and handover projects on the agreed date."
+                       data-si="අපි ඔබේ කාලය අගය කරමු. පොරොන්දු වූ දිනයටම වැඩ අවසන් කර නිවස ඔබට භාර දෙන්නෙමු.">
+                       We value your time. We strictly follow the timeline and handover projects on the agreed date.
+                    </p>
+                </div>
+
+                <!-- Promise 2 -->
+                <div class="promise-card" data-aos="fade-up" data-aos-delay="100" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 8px; border-left: 4px solid var(--accent-color); transition: 0.3s;">
+                    <i class="fas fa-layer-group" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 10px;" data-en="Quality Materials" data-si="උසස්ම අමුද්‍රව්‍ය">Quality Materials</h3>
+                    <p style="font-size: 0.9rem; color: #ddd;"
+                       data-en="We never compromise on quality. We use only SLS certified materials for long-lasting strength."
+                       data-si="ප්‍රමිතියෙන් බාල දේ අපි භාවිතා නොකරමු. SLS සහතික ලත් උසස්ම අමුද්‍රව්‍ය පමණක් භාවිතා කරමු.">
+                       We never compromise on quality. We use only SLS certified materials for long-lasting strength.
+                    </p>
+                </div>
+
+                <!-- Promise 3 -->
+                <div class="promise-card" data-aos="fade-up" data-aos-delay="200" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 8px; border-left: 4px solid var(--accent-color); transition: 0.3s;">
+                    <i class="fas fa-file-contract" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 10px;" data-en="Transparent Costs" data-si="විනිවිද පෙනෙන මිල ගණන්">Transparent Costs</h3>
+                    <p style="font-size: 0.9rem; color: #ddd;"
+                       data-en="No hidden charges. We stick to the agreed BOQ and budget throughout the project."
+                       data-si="සැඟවුණු ගාස්තු කිසිවක් නොමැත. මුලින් එකඟ වූ BOQ ඇස්තමේන්තුවටම අපි වැඩ නිම කරමු.">
+                       No hidden charges. We stick to the agreed BOQ and budget throughout the project.
+                    </p>
+                </div>
+
+                <!-- Promise 4 -->
+                <div class="promise-card" data-aos="fade-up" data-aos-delay="300" style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 8px; border-left: 4px solid var(--accent-color); transition: 0.3s;">
+                    <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 10px;" data-en="Structural Warranty" data-si="වගකීම් සහතිකය">Structural Warranty</h3>
+                    <p style="font-size: 0.9rem; color: #ddd;"
+                       data-en="We stand by our work. We provide a structural guarantee for every building we construct."
+                       data-si="අපගේ ඉදිකිරීම් පිළිබඳව අපට පූර්ණ විශ්වාසයි. ඉදිකිරීම් සඳහා වගකීම් සහතිකයක් පිරිනමමු.">
+                       We stand by our work. We provide a structural guarantee for every building we construct.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
+	<!-- COMMITMENT TO QUALITY SECTION -->
+    <section id="quality" style="background-color: var(--light-bg); padding: 100px 0;">
+        <div class="container">
+            <div class="quality-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; align-items: center;">
+                
+                <!-- Text Content (SEO Heavy) -->
+                <div class="quality-text" data-aos="fade-right">
+                    <div style="display: inline-block; background: var(--accent-color); color: white; padding: 5px 15px; font-size: 0.85rem; font-weight: 700; border-radius: 4px; margin-bottom: 15px; text-transform: uppercase;">
+                        <span data-en="ISO Standards & UDA Regulations" data-si="ISO ප්‍රමිති සහ UDA රෙගුලාසි">ISO Standards & UDA Regulations</span>
+                    </div>
+                    
+                    <h2 style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 25px; line-height: 1.3;" 
+                        data-en="Our Commitment to Quality & Legal Integrity" 
+                        data-si="ගුණාත්මකභාවය සහ නීතිමය වලංගුභාවය පිළිබඳ අපගේ කැපවීම">
+                        Our Commitment to Quality & Legal Integrity
+                    </h2>
+
+                    <p style="margin-bottom: 20px; text-align: justify; color: var(--text-light); line-height: 1.8;"
+                       data-en="At New Flowers Home Design & Constructions, we understand that building a home is likely the largest financial investment of your life. That is why we adhere strictly to the Urban Development Authority (UDA) regulations and local government bylaws. Every plan we design is guaranteed to be approved by your Pradeshiya Sabha or Urban Council, ensuring you face no legal hurdles in the future."
+                       data-si="New Flowers Home Design & Constructions හිදී, නිවසක් තැනීම යනු ඔබේ ජීවිතයේ විශාලතම මූල්‍ය ආයෝජනය බව අපි වටහා ගනිමු. එම නිසා අපි නාගරික සංවර්ධන අධිකාරියේ (UDA) රෙගුලාසි සහ පළාත් පාලන අතුරු ව්‍යවස්ථා වලට දැඩිව අනුකූල වන්නෙමු. අප විසින් නිර්මාණය කරන සෑම සැලැස්මක්ම ඔබේ ප්‍රාදේශීය සභාව හෝ නගර සභාව මගින් අනුමත කළ හැකි බවට අපි සහතික වන්නෙමු.">
+                       At New Flowers Home Design & Constructions, we understand that building a home is likely the largest financial investment of your life...
+                    </p>
+
+                    <p style="margin-bottom: 30px; text-align: justify; color: var(--text-light); line-height: 1.8;"
+                       data-en="Furthermore, our BOQ (Bill of Quantities) estimates are prepared by qualified quantity surveyors, making them widely accepted by all major banks in Sri Lanka for housing loans. From using SLS certified cement and steel to ensuring the correct concrete ratios, we maintain a transparent construction log that you can inspect at any time."
+                       data-si="තවද, අපගේ BOQ ඇස්තමේන්තු සුදුසුකම් ලත් ප්‍රමාණ සමීක්ෂකයන් (Quantity Surveyors) විසින් සකස් කරනු ලබන අතර, ඒවා ශ්‍රී ලංකාවේ සියලුම ප්‍රධාන බැංකු විසින් නිවාස ණය සඳහා පිළිගනු ලැබේ. SLS සහතික ලත් සිමෙන්ති සහ වානේ භාවිතා කිරීමේ සිට නිවැරදි කොන්ක්‍රීට් අනුපාතයන් සහතික කිරීම දක්වා, ඔබට ඕනෑම වේලාවක පරීක්ෂා කළ හැකි විනිවිද පෙනෙන ක්‍රියාවලියක් අපි පවත්වා ගනිමු.">
+                       Furthermore, our BOQ estimates are accepted by all major banks in Sri Lanka for housing loans...
+                    </p>
+
+                    <!-- Trust Indicators List -->
+                    <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <li style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--primary-color);">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="UDA Approved Plans" data-si="UDA අනුමත සැලසුම්">UDA Approved Plans</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--primary-color);">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="Bank Loan Support" data-si="බැංකු ණය සහාය">Bank Loan Support</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--primary-color);">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="SLS Certified Materials" data-si="SLS සහතික ලත් අමුද්‍රව්‍ය">SLS Certified Materials</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--primary-color);">
+                            <i class="fas fa-check-circle" style="color: var(--accent-color);"></i>
+                            <span data-en="Qualified Supervision" data-si="සුදුසුකම් ලත් අධීක්ෂණය">Qualified Supervision</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Visual Element (Professional Look) -->
+                <div class="quality-image" data-aos="fade-left" style="position: relative;">
+                    <!-- Main Image -->
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         alt="Site Inspection" 
+                         style="width: 100%; border-radius: 8px; box-shadow: var(--shadow);">
+                    
+                    <!-- Floating Card -->
+                    <div style="position: absolute; bottom: 30px; left: -20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 5px solid var(--primary-color); max-width: 250px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                            <i class="fas fa-file-signature" style="font-size: 2rem; color: var(--primary-color);"></i>
+                            <div>
+                                <h4 style="font-size: 0.9rem; margin: 0; color: var(--text-main);" data-en="Document Approval" data-si="ලේඛන අනුමැතිය">Document Approval</h4>
+                                <small style="color: green; font-weight: 700;" data-en="100% Guaranteed" data-si="100% සහතිකය">100% Guaranteed</small>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: #666; margin: 0;" data-en="We handle all council paperwork." data-si="නගර සභා ලිපි ලේඛන සියල්ල අපි බාරගනිමු.">We handle all council paperwork.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- GALLERY -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Our Projects" data-si="අපගේ ව්‍යාපෘති">Our Projects</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="gallery-filter" data-aos="fade-up">
+                <button class="filter-btn active" onclick="filterGallery('all')" data-en="All" data-si="සියල්ල">All</button>
+                <button class="filter-btn" onclick="filterGallery('construction')" data-en="Construction" data-si="ඉදිකිරීම්">Construction</button>
+                <button class="filter-btn" onclick="filterGallery('designs')" data-en="New Designs" data-si="නව සැලසුම්">New Designs</button>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Placeholders for "Our Projects" & "New Designs" -->
+                <div class="gallery-item construction" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Project 1">
+                    <div class="gallery-overlay">
+                        <h3 data-en="Two Story House" data-si="දෙමහල් නිවස">Two Story House</h3>
+                        <p data-en="Homagama Project" data-si="හෝමාගම ව්‍යාපෘතිය">Homagama Project</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item designs" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Design 1">
+                    <div class="gallery-overlay">
+                        <h3 data-en="Modern Villa 3D" data-si="නවීන විලා 3D">Modern Villa 3D</h3>
+                        <p data-en="New Concept" data-si="නව සංකල්පය">New Concept</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item construction" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Project 2">
+                    <div class="gallery-overlay">
+                        <h3 data-en="Luxury Home" data-si="සුඛෝපභෝගී නිවස">Luxury Home</h3>
+                        <p data-en="Kottawa Site" data-si="කොට්ටාව අඩවිය">Kottawa Site</p>
+                    </div>
+                </div>
+                
+                 <div class="gallery-item designs" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Design 2">
+                    <div class="gallery-overlay">
+                        <h3 data-en="Flower Home Design" data-si="මල් නිවාස සැලසුම">Flower Home Design</h3>
+                        <p data-en="2026 Collection" data-si="2026 එකතුව">2026 Collection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	
+	<!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" style="background-color: var(--light-bg); text-align: center;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="What Our Clients Say" data-si="පාරිභෝගික අදහස්">What Our Clients Say</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="testimonial-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                
+                <!-- Review 1 -->
+                <div class="review-card" data-aos="zoom-in" data-aos-delay="0" style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent-color); opacity: 0.3; position: absolute; top: 20px; left: 20px;"></i>
+                    <p style="font-style: italic; color: #555; margin-bottom: 20px; margin-top: 15px;" 
+                       data-en="New Flowers team helped me get my bank loan approved quickly with their accurate BOQ. The construction quality is amazing."
+                       data-si="බැංකු ණය ඉක්මනින් ලබා ගැනීමට ඔවුන්ගේ BOQ එක මට ගොඩක් උදව් වුනා. නිවසේ නිමාව ඉතාම ඉහළයි.">
+                       New Flowers team helped me get my bank loan approved quickly with their accurate BOQ. The construction quality is amazing.
+                    </p>
+                    <div class="stars" style="color: #f1c40f; margin-bottom: 10px;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4 style="color: var(--primary-color);">Mr. Kamal Perera</h4>
+                    <span style="font-size: 0.8rem; color: #999;">Homagama</span>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent-color); opacity: 0.3; position: absolute; top: 20px; left: 20px;"></i>
+                    <p style="font-style: italic; color: #555; margin-bottom: 20px; margin-top: 15px;" 
+                       data-en="Professional service. They handled all the UDA approvals. I didn't have to worry about anything."
+                       data-si="ඉතාම වෘත්තීය සේවාවක්. UDA අනුමැතිය ලබා ගැනීමේ සිට සියල්ල ඔවුන් විසින් සිදුකලා. මට කරදර වෙන්න දෙයක් තිබුනේ නෑ.">
+                       Professional service. They handled all the UDA approvals. I didn't have to worry about anything.
+                    </p>
+                    <div class="stars" style="color: #f1c40f; margin-bottom: 10px;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4 style="color: var(--primary-color);">Mrs. Dilani Silva</h4>
+                    <span style="font-size: 0.8rem; color: #999;">Kottawa</span>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card" data-aos="zoom-in" data-aos-delay="200" style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); position: relative;">
+                    <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent-color); opacity: 0.3; position: absolute; top: 20px; left: 20px;"></i>
+                    <p style="font-style: italic; color: #555; margin-bottom: 20px; margin-top: 15px;" 
+                       data-en="Highly recommended! 25 years of experience really shows in their work. On-time delivery."
+                       data-si="ඉතාම විශ්වාසවන්ත ආයතනයක්. වසර 25ක පළපුරුද්ද ඔවුන්ගේ වැඩ වලින් පෙනෙනවා. වෙලාවට වැඩ ඉවර කරා.">
+                       Highly recommended! 25 years of experience really shows in their work. On-time delivery.
+                    </p>
+                    <div class="stars" style="color: #f1c40f; margin-bottom: 10px;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h4 style="color: var(--primary-color);">Mr. Jagath Gunawardena</h4>
+                    <span style="font-size: 0.8rem; color: #999;">Athurugiriya</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+<!-- FAQ SECTION -->
+    <section id="faq" style="background-color: var(--light-bg);">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Frequently Asked Questions" data-si="නිතර අසන ප්‍රශ්න">Frequently Asked Questions</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="faq-list" style="max-width: 800px; margin: 0 auto;">
+                
+                <!-- Q1 -->
+                <div class="faq-item" style="background: white; margin-bottom: 15px; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="faq-question" onclick="this.nextElementSibling.classList.toggle('active')" style="padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span data-en="Do you handle UDA approvals?" data-si="ඔබ UDA අනුමැතිය ලබා දෙනවාද?">Do you handle UDA approvals?</span>
+                        <i class="fas fa-chevron-down" style="color: var(--accent-color);"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none; padding: 15px 20px; border-top: 1px solid #eee; color: #666; background: #fafafa;">
+                        <p data-en="Yes, we design all plans according to UDA and local authority regulations and help you get the approval." data-si="ඔව්, අපි සියලුම සැලසුම් UDA රෙගුලාසි වලට අනුකූලව සකස් කරන අතර අනුමැතිය ලබා ගැනීමටද සහාය වෙමු.">Yes, we design all plans according to UDA and local authority regulations and help you get the approval.</p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="faq-item" style="background: white; margin-bottom: 15px; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="faq-question" onclick="this.nextElementSibling.classList.toggle('active')" style="padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span data-en="Can I get a Bank Loan with your BOQ?" data-si="ඔබේ BOQ එක මගින් බැංකු ණය ලබා ගත හැකිද?">Can I get a Bank Loan with your BOQ?</span>
+                        <i class="fas fa-chevron-down" style="color: var(--accent-color);"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none; padding: 15px 20px; border-top: 1px solid #eee; color: #666; background: #fafafa;">
+                        <p data-en="Absolutely. Our BOQs are accepted by all major state and private banks in Sri Lanka." data-si="අනිවාර්යයෙන්ම. අපගේ BOQ ලංකාවේ සියලුම රාජ්‍ය සහ පුද්ගලික බැංකු විසින් පිළිගනු ලැබේ.">Absolutely. Our BOQs are accepted by all major state and private banks in Sri Lanka.</p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="faq-item" style="background: white; margin-bottom: 15px; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="faq-question" onclick="this.nextElementSibling.classList.toggle('active')" style="padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                        <span data-en="Do you build outside Homagama?" data-si="ඔබ හෝමාගමෙන් පිටත ඉදිකිරීම් කරනවාද?">Do you build outside Homagama?</span>
+                        <i class="fas fa-chevron-down" style="color: var(--accent-color);"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none; padding: 15px 20px; border-top: 1px solid #eee; color: #666; background: #fafafa;">
+                        <p data-en="Yes, we undertake projects in Colombo, Kalutara, and Gampaha districts." data-si="ඔව්, අපි කොළඹ, කළුතර සහ ගම්පහ දිස්ත්‍රික්ක තුළ ව්‍යාපෘති භාර ගනු ලැබේ.">Yes, we undertake projects in Colombo, Kalutara, and Gampaha districts.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Quick CSS for FAQ Toggle -->
+        <style>
+            .faq-answer.active { display: block !important; animation: slideDown 0.3s ease; }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        </style>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Contact Us" data-si="අප අමතන්න">Contact Us</h2>
+                <div class="line" style="background: white;"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="info-box" data-aos="fade-right">
+                    <h3 data-en="Office Details" data-si="කාර්යාල විස්තර">Office Details</h3>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong data-en="Location" data-si="ලිපිනය">Location</strong><br>
+                            <span data-en="126/1/1, Court Road, Homagama." data-si="126/1/1, උසාවිය පාර, හෝමාගම.">126/1/1, Court Road, Homagama.</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <strong data-en="Mobile" data-si="ජංගම දුරකථන">Mobile</strong><br>
+                            <a href="tel:0777877204">077 787 7204</a><br>
+                            <a href="tel:0762627204">076 262 7204</a>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong data-en="Office Line" data-si="කාර්යාල දුරකථනය">Office Line</strong><br>
+                            <a href="tel:0117203140">011 720 3140</a>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong data-en="Email" data-si="විද්‍යුත් තැපෑල">Email</strong><br>
+                            <a href="mailto:newflowersdesign@gmail.com">newflowersdesign@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Map -->
+                <div class="map-wrapper" data-aos="fade-left">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31693.39864230787!2d80.0003!3d6.8406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2523b05555555%3A0x5555555555555555!2sHomagama%20Court!5e0!3m2!1sen!2slk!4v1600000000000!5m2!1sen!2slk" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
-        <div class="container footer-grid">
-            <div class="footer-col">
-                <img src="logo.png" style="height:50px; margin-bottom:15px;">
-                <p>Sri Lanka's premier construction partner.</p>
+        <div class="container">
+            <div style="text-align: center;">
+                <div class="footer-logo">NEW FLOWERS <span>DESIGN</span></div>
+                <p data-en="Your trusted partner in construction for over 25 years." 
+                   data-si="වසර 25කට අධික කාලයක් ඉදිකිරීම් ක්ෂේත්‍රයේ ඔබේ විශ්වාසවන්ත සහකරු.">
+                   Your trusted partner in construction for over 25 years.
+                </p>
             </div>
-            <div class="footer-col">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="alldesigns.html">Designs</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>Contact</h3>
-                <p>011 720 3140</p>
-                <div class="socials">
-                    <!-- Add social icons here -->
-                </div>
+            <div class="footer-bottom">
+                &copy; 2026 New Flowers Home Design & Constructions.
             </div>
         </div>
     </footer>
 
-    <!-- Chat Bot UI -->
-    <div class="chatbot-toggler">
-        <i class="fas fa-comment-dots"></i>
+    <!-- WIDGETS -->
+    
+    <!-- 1. Floating WhatsApp Booking -->
+    <div class="book-float" onclick="openModal()">
+        <i class="fab fa-whatsapp"></i> <span data-en="Book Appointment" data-si="වෙලාවක් වෙන්කරගන්න">Book Appointment</span>
     </div>
-    <div class="chatbot-window">
-        <div class="chat-header">
-            <h4>Chat with Us</h4>
+
+    <!-- 2. Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span data-en="New Flowers Assistant" data-si="සහයක සේවාව">New Flowers Assistant</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="toggleChat()">&times;</span>
+            </div>
+            <div class="chat-body" id="chatBody"></div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" placeholder="..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
         </div>
-        <div class="chat-body">
-            <div class="chat-msg bot">Hi! How can I help you with your dream home today?</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Type a message...">
+        <div class="chat-bubble" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
         </div>
     </div>
 
-    <script src="logic.js"></script>
+    <!-- 3. Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h3 data-en="Request Estimate" data-si="ඇස්තමේන්තුවක් ලබාගන්න">Request Estimate</h3>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="sendToWhatsApp(event)">
+                    <div class="form-group">
+                        <label data-en="Your Name" data-si="ඔබගේ නම">Your Name</label>
+                        <input type="text" id="b_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Service" data-si="සේවාව">Service</label>
+                        <select id="b_service">
+                            <option value="House Plan">House Plan (නිවාස සැලසුම්)</option>
+                            <option value="Construction">Construction (ඉදිකිරීම්)</option>
+                            <option value="BOQ">BOQ (ඇස්තමේන්තු)</option>
+                            <option value="3D Design">3D Design</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Location" data-si="ප්‍රදේශය">Location</label>
+                        <input type="text" id="b_location" required>
+                    </div>
+                    <button type="submit" class="btn-wa">
+                        <i class="fab fa-whatsapp"></i> <span data-en="Send via WhatsApp" data-si="WhatsApp මගින් යවන්න">Send via WhatsApp</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // --- 1. CONFIGURATION & INIT ---
+        AOS.init({ offset: 100, duration: 800, once: false });
+
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+        };
+
+        // --- 2. LANGUAGE SWITCHER LOGIC ---
+        let currentLang = 'en'; // Default English
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'si' : 'en';
+            updateContent();
+        }
+
+        function updateContent() {
+            // 1. Update Body Class for Fonts
+            if(currentLang === 'si') {
+                document.body.classList.add('lang-si');
+                document.getElementById('langText').innerText = "ENGLISH";
+            } else {
+                document.body.classList.remove('lang-si');
+                document.getElementById('langText').innerText = "SINHALA";
+            }
+
+            // 2. Update Text Content based on data attributes
+            const elements = document.querySelectorAll(`[data-${currentLang}]`);
+            elements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+
+            // 3. Update Placeholders (Inputs)
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if(currentLang === 'si') {
+                     if(input.id === 'chatInput') input.placeholder = "පණිවිඩයක් ලියන්න...";
+                } else {
+                     if(input.id === 'chatInput') input.placeholder = "Type a message...";
+                }
+            });
+        }
+
+        // --- 3. UI INTERACTION ---
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // Header Scroll Effect
+        window.addEventListener("scroll", function() {
+            const header = document.getElementById("header");
+            if (window.scrollY > 50) header.style.top = "0";
+            else header.style.top = "38px";
+        });
+
+        // Gallery Filter
+        function filterGallery(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.style.display = (cat === 'all' || item.classList.contains(cat)) ? 'block' : 'none';
+                // Trigger AOS refresh
+                item.classList.remove('aos-animate');
+                setTimeout(()=> item.classList.add('aos-animate'), 50);
+            });
+        }
+
+        // --- 4. MODAL & WHATSAPP ---
+        function openModal() { document.getElementById('bookingModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('bookingModal').style.display = 'none'; }
+
+        // Close on click outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('bookingModal')) closeModal();
+        }
+
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            const name = document.getElementById('b_name').value;
+            const service = document.getElementById('b_service').value;
+            const loc = document.getElementById('b_location').value;
+            
+            const msg = `*New Inquiry via Website*%0A%0AName: ${name}%0AService: ${service}%0ALocation: ${loc}`;
+            window.open(`https://wa.me/94777877204?text=${msg}`, '_blank');
+            closeModal();
+        }
+
+        // --- 5. CHAT BOT ---
+        let isChatOpen = false;
+        
+        function toggleChat() {
+            const win = document.getElementById('chatWindow');
+            if(!isChatOpen) {
+                win.style.display = 'flex';
+                // Greeting if empty
+                if(document.getElementById('chatBody').innerHTML === '') {
+                    const greeting = currentLang === 'si' 
+                        ? "ආයුබෝවන්! New Flowers වෙත සාදරයෙන් පිළිගනිමු. ඔබට අවශ්‍ය සේවාව කුමක්ද?" 
+                        : "Hello! Welcome to New Flowers. How can we help you today?";
+                    addBotMsg(greeting);
+                }
+            } else {
+                win.style.display = 'none';
+            }
+            isChatOpen = !isChatOpen;
+        }
+
+        function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            addUserMsg(txt);
+            input.value = '';
+
+            // Simple Logic
+            setTimeout(() => {
+                let response = "";
+                const lower = txt.toLowerCase();
+
+                // English Logic
+                if(currentLang === 'en') {
+                    if(lower.includes('price') || lower.includes('cost')) response = "Costs vary by design. Please use the 'Book Appointment' button for a free BOQ estimate.";
+                    else if(lower.includes('location')) response = "We are at 126/1/1, Court Road, Homagama.";
+                    else if(lower.includes('phone')) response = "Call us: 077 787 7204";
+                    else response = "Thanks! Please contact us on WhatsApp for more details.";
+                } 
+                // Sinhala Logic (Simple Keyword Matching)
+                else {
+                    if(lower.includes('මිල') || lower.includes('ගාස්තු')) response = "මිල ගණන් නිර්මාණය අනුව වෙනස් වේ. කරුණාකර BOQ බොත්තම භාවිතා කරන්න.";
+                    else if(lower.includes('ලිපිනය') || lower.includes('කොහෙද')) response = "අපගේ ලිපිනය: 126/1/1, උසාවිය පාර, හෝමාගම.";
+                    else if(lower.includes('දුරකථන')) response = "අමතන්න: 077 787 7204";
+                    else response = "ස්තූතියි! වැඩි විස්තර සඳහා WhatsApp හරහා අපව අමතන්න.";
+                }
+                addBotMsg(response);
+            }, 800);
+        }
+
+        function addUserMsg(text) {
+            const div = document.createElement('div');
+            div.className = 'message user-msg';
+            div.innerText = text;
+            const body = document.getElementById('chatBody');
+            body.appendChild(div);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function addBotMsg(text) {
+            const div = document.createElement('div');
+            div.className = 'message bot-msg';
+            div.innerText = text;
+            const body = document.getElementById('chatBody');
+            body.appendChild(div);
+            body.scrollTop = body.scrollHeight;
+        }
+		
+    /* --- AUTO SLIDER LOGIC --- */
+    const track = document.getElementById('sliderTrack');
+    const cards = document.querySelectorAll('.slide-card');
+    let currentIndex = 0;
+    let cardWidth = cards[0].offsetWidth;
+    let cardsToShow = window.innerWidth > 992 ? 3 : (window.innerWidth > 600 ? 2 : 1);
+    let maxIndex = cards.length - cardsToShow;
+    let autoPlay;
+
+    // Update dimensions on resize
+    window.addEventListener('resize', () => {
+        cardWidth = cards[0].offsetWidth;
+        cardsToShow = window.innerWidth > 992 ? 3 : (window.innerWidth > 600 ? 2 : 1);
+        maxIndex = cards.length - cardsToShow;
+        updateSliderPosition();
+    });
+
+    function moveSlide(direction) {
+        currentIndex += direction;
+        
+        // Loop logic
+        if (currentIndex < 0) {
+            currentIndex = maxIndex;
+        } else if (currentIndex > maxIndex) {
+            currentIndex = 0;
+        }
+        
+        updateSliderPosition();
+        resetTimer();
+    }
+
+    function updateSliderPosition() {
+        // Calculate translate percentage based on index and 100% / cardsToShow
+        // But since we used flexbox and min-width, simple pixel calc works best or percentage
+        const translateX = -(currentIndex * (100 / cardsToShow));
+        track.style.transform = `translateX(${translateX}%)`;
+    }
+
+    // Auto Play Function
+    function startAutoPlay() {
+        autoPlay = setInterval(() => {
+            moveSlide(1);
+        }, 3500); // Speed: 3.5 seconds
+    }
+
+    function resetTimer() {
+        clearInterval(autoPlay);
+        startAutoPlay();
+    }
+
+    // Start
+    startAutoPlay();
+
+    // Touch Swipe Support for Mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(autoPlay); // Pause on touch
+    });
+
+    track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        startAutoPlay(); // Resume
+    });
+
+    function handleSwipe() {
+        if (touchEndX < touchStartX - 50) moveSlide(1); // Swipe Left -> Next
+        if (touchEndX > touchStartX + 50) moveSlide(-1); // Swipe Right -> Prev
+    }
+</script>
+    
 </body>
 </html>
