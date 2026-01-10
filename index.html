@@ -228,11 +228,119 @@
         
         .map-wrapper { height: 100%; min-height: 350px; border-radius: 8px; overflow: hidden; }
 
-        /* --- FOOTER --- */
-        footer { background: var(--primary-dark); color: #888; padding: 60px 0 20px; }
-        .footer-logo { color: white; font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; }
-        .footer-logo span { color: var(--accent-color); }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; padding-top: 20px; text-align: center; font-size: 0.9rem; }
+       /* --- FOOTER SPECIFIC STYLES --- */
+    
+    .footer-title {
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: var(--accent-color);
+    }
+
+    /* Footer Links */
+    .footer-links { list-style: none; padding: 0; }
+    .footer-links li { margin-bottom: 12px; }
+    
+    .footer-links a {
+        color: #a0aab5;
+        transition: 0.3s;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .footer-links a::before {
+        content: '\f105'; /* FontAwesome Chevron */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        margin-right: 8px;
+        color: var(--accent-color);
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: 0.3s;
+    }
+    
+    .footer-links a:hover {
+        color: white;
+        padding-left: 5px;
+    }
+    
+    .footer-links a:hover::before {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Contact List */
+    .contact-list li {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        color: #a0aab5;
+        align-items: flex-start;
+    }
+    
+    .contact-list i {
+        color: var(--accent-color);
+        font-size: 1.1rem;
+        margin-top: 4px;
+    }
+
+    .contact-list a { color: #a0aab5; transition: 0.3s; }
+    .contact-list a:hover { color: white; }
+
+    /* Social Buttons */
+    .social-btn {
+        width: 40px; height: 40px;
+        background: rgba(255,255,255,0.1);
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%;
+        color: white;
+        transition: 0.3s;
+    }
+    
+    .social-btn:hover {
+        background: var(--accent-color);
+        transform: translateY(-3px);
+    }
+    
+    .facebook:hover { background: #3b5998; }
+    .whatsapp:hover { background: #25D366; }
+    .youtube:hover { background: #FF0000; }
+
+    /* Back To Top Button */
+    #backToTop {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        left: 30px; /* Left side to avoid Chat Widget/Book Btn */
+        z-index: 99;
+        font-size: 1.2rem;
+        border: none;
+        outline: none;
+        background-color: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        padding: 12px 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transition: 0.3s;
+    }
+
+    #backToTop:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-3px);
+    }
 
         /* --- WIDGETS --- */
         .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 2000; }
@@ -468,6 +576,93 @@
     .design-image { height: 300px; }
     .slider-btn { display: none; } /* Hide arrows on small mobile, use swipe */
 }
+
+/* --- WHATSAPP FORM STYLES --- */
+    .form-wrapper {
+        background: white;
+        max-width: 800px;
+        margin: 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .form-header {
+        background: var(--primary-color);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h2 { margin-bottom: 5px; color: white; }
+    .form-header p { opacity: 0.8; font-size: 0.9rem; }
+
+    form { padding: 40px; }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .input-group { display: flex; flex-direction: column; }
+    .input-group.full-width { grid-column: 1 / -1; }
+
+    .input-group label {
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+    
+    .input-group label i { color: var(--accent-color); margin-right: 5px; }
+
+    .input-group input, 
+    .input-group select, 
+    .input-group textarea {
+        padding: 12px;
+        border: 2px solid #eee;
+        border-radius: 5px;
+        font-family: inherit;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus, 
+    .input-group select:focus, 
+    .input-group textarea:focus {
+        border-color: var(--accent-color);
+        outline: none;
+    }
+
+    .wa-submit-btn {
+        background: #25D366;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        border-radius: 5px;
+        margin-top: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.3s;
+        text-transform: uppercase;
+    }
+
+    .wa-submit-btn:hover {
+        background: #128C7E;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .form-grid { grid-template-columns: 1fr; }
+        form { padding: 25px; }
+    }
     </style>
 </head>
 <body>
@@ -735,6 +930,50 @@
         </div>
     </section>
 	
+	<!-- TEAM SECTION -->
+    <section id="team" style="background-color: var(--light-bg);">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="Meet Our Experts" data-si="අපගේ කාර්ය මණ්ඩලය">Meet Our Experts</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: center;">
+                
+                <!-- Member 1 -->
+                <div class="team-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="img-box" style="width: 150px; height: 150px; margin: 0 auto 20px; overflow: hidden; border-radius: 50%; border: 4px solid var(--accent-color);">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="MD" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="color: var(--primary-color); font-size: 1.2rem;">Mr. Sanjeewa</h3>
+                    <p style="color: var(--accent-color); font-weight: 600; font-size: 0.9rem;">Managing Director</p>
+                    <p style="color: #666; font-size: 0.85rem; margin-top: 10px;">25 Years Experience in Civil Engineering.</p>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="img-box" style="width: 150px; height: 150px; margin: 0 auto 20px; overflow: hidden; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Architect" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="color: var(--primary-color); font-size: 1.2rem;">Ms. Nimali</h3>
+                    <p style="color: var(--accent-color); font-weight: 600; font-size: 0.9rem;">Chartered Architect</p>
+                    <p style="color: #666; font-size: 0.85rem; margin-top: 10px;">Specialist in Modern Eco-Designs.</p>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="img-box" style="width: 150px; height: 150px; margin: 0 auto 20px; overflow: hidden; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="QS" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="color: var(--primary-color); font-size: 1.2rem;">Mr. Perera</h3>
+                    <p style="color: var(--accent-color); font-weight: 600; font-size: 0.9rem;">Quantity Surveyor</p>
+                    <p style="color: #666; font-size: 0.85rem; margin-top: 10px;">Expert in BOQ and Cost Control.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+	
     <!-- Why Choose Us? SECTION -->
     <section id="Choose">
         <div class="container">
@@ -838,6 +1077,101 @@
         </div>
     </section>
 	
+	<!-- VIDEO TOUR SECTION -->
+    <section id="video-tour" style="position: relative; height: 400px; display: flex; align-items: center; justify-content: center; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover; background-attachment: fixed;">
+        
+        <!-- Dark Overlay -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);"></div>
+
+        <div class="container" style="position: relative; z-index: 2; text-align: center; color: white;">
+            <div class="play-btn" data-aos="zoom-in" style="width: 80px; height: 80px; background: white; color: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 20px; cursor: pointer; animation: pulse 2s infinite;">
+                <i class="fas fa-play" style="margin-left: 5px;"></i>
+            </div>
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;" data-en="Watch Our Latest Project" data-si="අපගේ නවතම ව්‍යාපෘතිය නරඹන්න">Watch Our Latest Project</h2>
+            <p style="font-size: 1.2rem;" data-en="See the finishing quality of New Flowers Home Designs" data-si="නිව් ෆ්ලවර්ස් නිවාස වල උසස් නිමාව දෑසින් දැකගන්න">See the finishing quality of New Flowers Home Designs</p>
+        </div>
+
+        <style>
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+                70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+            }
+        </style>
+    </section>
+	
+	<!-- BEFORE & AFTER SECTION -->
+    <section id="transformation" style="background: white; padding-bottom: 80px;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="See the Transformation" data-si="වෙනස වටහාගන්න">See the Transformation</h2>
+                <div class="line"></div>
+                <p data-en="Drag the slider to see how we transform bare lands into luxury homes." 
+                   data-si="හිස් ඉඩමක් සුඛෝපභෝගී නිවසක් බවට පත් කරන ආකාරය බලන්න.">
+                   Drag the slider to see how we transform bare lands into luxury homes.
+                </p>
+            </div>
+
+            <div class="comparison-container" data-aos="zoom-in">
+                <div class="img-comp-container">
+                    <div class="img-comp-img img-after">
+                        <img src="https://images.unsplash.com/photo-1600596542815-e328700336f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="After">
+                        <span class="label-badge after-badge" data-en="AFTER (නිමාව)" data-si="පසු (නිමාව)">AFTER</span>
+                    </div>
+                    <div class="img-comp-img img-before">
+                        <img src="https://images.unsplash.com/photo-1599708153386-5d28b1933e4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Before">
+                        <span class="label-badge before-badge" data-en="BEFORE (ඉඩම)" data-si="පෙර (ඉඩම)">BEFORE</span>
+                    </div>
+                    <!-- The Slider Handle -->
+                    <div class="slider-handle">
+                        <i class="fas fa-arrows-alt-h"></i>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="slider-range" oninput="slideCompare(this.value)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .comparison-container {
+            max-width: 800px; margin: 0 auto; position: relative;
+            border-radius: 10px; overflow: hidden; box-shadow: var(--shadow);
+        }
+        .img-comp-container { position: relative; height: 450px; overflow: hidden; }
+        .img-comp-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; }
+        .img-comp-img img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .img-before { width: 50%; border-right: 3px solid white; z-index: 2; transition: width 0s; }
+        
+        .label-badge {
+            position: absolute; top: 20px; padding: 5px 15px;
+            background: rgba(0,0,0,0.6); color: white; font-weight: bold; font-size: 0.8rem;
+            border-radius: 4px; z-index: 3;
+        }
+        .before-badge { left: 20px; }
+        .after-badge { right: 20px; }
+
+        .slider-range {
+            position: absolute; top: 50%; left: -25px; width: calc(100% + 50px); height: 50px;
+            z-index: 10; opacity: 0; cursor: ew-resize;
+        }
+        
+        .slider-handle {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 5; pointer-events: none;
+            color: var(--accent-color);
+        }
+    </style>
+
+    <script>
+        function slideCompare(val) {
+            document.querySelector('.img-before').style.width = val + "%";
+            document.querySelector('.slider-handle').style.left = val + "%";
+        }
+    </script>
+	
 	<!-- PRICING PACKAGES -->
     <section id="pricing" style="background-color: white;">
         <div class="container">
@@ -887,6 +1221,98 @@
                     <a href="#contact" class="btn-outline" style="border: 1px solid var(--primary-color); color: var(--primary-color); padding: 10px 20px; border-radius: 5px; display:block;">Inquire Now</a>
                 </div>
 
+            </div>
+        </div>
+    </section>
+	
+	<!-- COST CALCULATOR SECTION -->
+    <section id="calculator" style="background: var(--primary-color); color: white; padding: 80px 0;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 style="color: white;" data-en="Estimate Your Construction Cost" data-si="ඔබේ ඉදිකිරීම් වියදම ගණනය කරන්න">Estimate Your Construction Cost</h2>
+                <div class="line" style="background: white;"></div>
+                <p style="color: rgba(255,255,255,0.8);" data-en="Get a rough estimate for your dream home instantly." data-si="ඔබේ සිහින නිවසේ දළ ඇස්තමේන්තුවක් දැන්ම ලබාගන්න.">Get a rough estimate for your dream home instantly.</p>
+            </div>
+
+            <div class="calc-box" data-aos="zoom-in" style="background: white; color: #333; max-width: 700px; margin: 0 auto; padding: 40px; border-radius: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+                
+                <!-- Input: Area -->
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 10px;" data-en="Floor Area (Sq.ft)" data-si="වපසරිය (වර්ග අඩි)">Floor Area (Sq.ft)</label>
+                    <input type="number" id="calc-area" placeholder="Ex: 1000" style="width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <!-- Input: Type -->
+                <div style="margin-bottom: 30px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 10px;" data-en="Construction Quality" data-si="ඉදිකිරීම් වර්ගය">Construction Quality</label>
+                    <select id="calc-type" style="width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 5px; font-size: 1rem;">
+                        <option value="12500">Economy (Normal Finish)</option>
+                        <option value="16500">Standard (Tiled/Modern)</option>
+                        <option value="22000">Luxury (High-end Finish)</option>
+                    </select>
+                </div>
+
+                <!-- Calculate Button -->
+                <button onclick="calculateCost()" style="width: 100%; background: var(--accent-color); color: white; padding: 15px; border: none; font-size: 1.2rem; font-weight: 800; border-radius: 5px; cursor: pointer; transition: 0.3s;">
+                    <span data-en="Calculate Now" data-si="ගණනය කරන්න">Calculate Now</span>
+                </button>
+
+                <!-- Result Display -->
+                <div id="calc-result" style="display: none; margin-top: 30px; text-align: center; border-top: 1px dashed #ccc; padding-top: 20px;">
+                    <p style="font-size: 0.9rem; color: #666;" data-en="Estimated Cost:" data-si="ඇස්තමේන්තුගත මුදල:">Estimated Cost:</p>
+                    <h3 style="font-size: 2.5rem; color: var(--primary-color); margin: 10px 0;">LKR <span id="total-cost">0</span></h3>
+                    <p style="font-size: 0.8rem; color: red;">*This is a rough estimate. Contact us for an accurate BOQ.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+	<!-- COMPARISON SECTION -->
+    <section id="comparison" style="background: white;">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 data-en="New Flowers vs. Ordinary Mason" data-si="අපේ සේවාව සහ සාමාන්‍ය පෙදරේරු සේවාව">New Flowers vs. Ordinary Mason</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="comparison-table-wrapper" data-aos="zoom-in" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                    <thead>
+                        <tr style="background: var(--primary-color); color: white;">
+                            <th style="padding: 15px; text-align: left;">Feature</th>
+                            <th style="padding: 15px; width: 35%; background: var(--accent-color);">New Flowers Construction</th>
+                            <th style="padding: 15px; width: 35%; background: #555;">Typical Mason (Baas)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px; font-weight: 600;">Plan & Approval</td>
+                            <td style="padding: 15px; color: green;"><i class="fas fa-check-circle"></i> Handled by us (UDA)</td>
+                            <td style="padding: 15px; color: red;"><i class="fas fa-times-circle"></i> You must do it yourself</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background: #f9f9f9;">
+                            <td style="padding: 15px; font-weight: 600;">Cost Control</td>
+                            <td style="padding: 15px; color: green;"><i class="fas fa-check-circle"></i> Fixed BOQ (No hidden cost)</td>
+                            <td style="padding: 15px; color: red;"><i class="fas fa-times-circle"></i> Cost increases daily</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px; font-weight: 600;">Bank Loans</td>
+                            <td style="padding: 15px; color: green;"><i class="fas fa-check-circle"></i> Full Support (Docs Provided)</td>
+                            <td style="padding: 15px; color: red;"><i class="fas fa-times-circle"></i> Cannot provide docs</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background: #f9f9f9;">
+                            <td style="padding: 15px; font-weight: 600;">Warranty</td>
+                            <td style="padding: 15px; color: green;"><i class="fas fa-check-circle"></i> 25 Years Structural Warranty</td>
+                            <td style="padding: 15px; color: red;"><i class="fas fa-times-circle"></i> No Warranty</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; font-weight: 600;">Time</td>
+                            <td style="padding: 15px; color: green;"><i class="fas fa-check-circle"></i> Finished on agreed date</td>
+                            <td style="padding: 15px; color: red;"><i class="fas fa-times-circle"></i> Usually delayed</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -1118,6 +1544,45 @@
             </div>
         </div>
     </section>
+	
+	<!-- PARTNERS SECTION -->
+    <section id="partners" style="background-color: var(--light-bg); padding-top: 50px; padding-bottom: 50px;">
+        <div class="container">
+            <h3 style="text-align: center; color: #888; margin-bottom: 30px; font-size: 1.2rem;" 
+                data-en="We use only the best brands in Sri Lanka" 
+                data-si="අපි භාවිතා කරන්නේ ලංකාවේ ඉහළම ප්‍රමිතියේ අමුද්‍රව්‍ය පමණි">
+                We use only the best brands in Sri Lanka
+            </h3>
+            
+            <div class="brand-grid" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; align-items: center; opacity: 0.7;">
+                <!-- Replace 'src' with actual logo URLs or use these placeholders with text -->
+                <div class="brand-item" data-aos="fade-up" data-aos-delay="0">
+                    <i class="fas fa-layer-group" style="font-size: 2rem;"></i> <span style="font-weight: 800; font-size: 1.5rem;">TOKYO <br>SUPER</span>
+                </div>
+                <div class="brand-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-hammer" style="font-size: 2rem;"></i> <span style="font-weight: 800; font-size: 1.5rem;">MELWA</span>
+                </div>
+                <div class="brand-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-border-all" style="font-size: 2rem;"></i> <span style="font-weight: 800; font-size: 1.5rem;">ROCELL</span>
+                </div>
+                <div class="brand-item" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-lightbulb" style="font-size: 2rem;"></i> <span style="font-weight: 800; font-size: 1.5rem;">ORANGE</span>
+                </div>
+                <div class="brand-item" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-paint-roller" style="font-size: 2rem;"></i> <span style="font-weight: 800; font-size: 1.5rem;">DULUX</span>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .brand-item {
+                display: flex; align-items: center; gap: 10px; color: #555; filter: grayscale(100%); transition: 0.3s;
+            }
+            .brand-item:hover {
+                filter: grayscale(0%); color: var(--primary-color); transform: scale(1.1);
+            }
+        </style>
+    </section>
 
     <!-- GALLERY -->
     <section id="gallery">
@@ -1224,6 +1689,72 @@
                     <h4 style="color: var(--primary-color);">Mr. Jagath Gunawardena</h4>
                     <span style="font-size: 0.8rem; color: #999;">Athurugiriya</span>
                 </div>
+
+            </div>
+        </div>
+    </section>
+	
+	<!-- WHATSAPP QUOTE FORM SECTION -->
+    <section id="quote-form" style="background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover fixed; padding: 80px 0;">
+        <div class="container">
+            <div class="form-wrapper" data-aos="zoom-in">
+                
+                <!-- Form Header -->
+                <div class="form-header">
+                    <h2 data-en="Get a Free Estimate" data-si="නොමිලේ ඇස්තමේන්තුවක් ලබාගන්න">Get a Free Estimate</h2>
+                    <p data-en="Fill this form to send your details directly to our WhatsApp." 
+                       data-si="ඔබගේ විස්තර WhatsApp වෙත යොමු කිරීමට මෙම පෝරමය පුරවන්න.">
+                       Fill this form to send your details directly to our WhatsApp.
+                    </p>
+                </div>
+
+                <!-- The Form -->
+                <form onsubmit="submitWhatsappForm(event)">
+                    <div class="form-grid">
+                        
+                        <!-- Name -->
+                        <div class="input-group">
+                            <label><i class="fas fa-user"></i> <span data-en="Your Name" data-si="ඔබගේ නම">Your Name</span></label>
+                            <input type="text" id="w-name" placeholder="Ex: Mr. Kamal" required>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="input-group">
+                            <label><i class="fas fa-phone"></i> <span data-en="Phone Number" data-si="දුරකථන අංකය">Phone Number</span></label>
+                            <input type="tel" id="w-phone" placeholder="Ex: 077 123 4567" required>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="input-group">
+                            <label><i class="fas fa-map-marker-alt"></i> <span data-en="Land Location" data-si="ඉඩම පිහිටි ප්‍රදේශය">Land Location</span></label>
+                            <input type="text" id="w-location" placeholder="Ex: Homagama" required>
+                        </div>
+
+                        <!-- Service Type -->
+                        <div class="input-group">
+                            <label><i class="fas fa-tools"></i> <span data-en="Service Required" data-si="අවශ්‍ය සේවාව">Service Required</span></label>
+                            <select id="w-service">
+                                <option value="New House Construction">New House Construction (නිවාස ඉදිකිරීම)</option>
+                                <option value="Architectural Plan">Architectural Plan (නිවාස සැලසුම්)</option>
+                                <option value="BOQ for Bank Loan">BOQ for Bank Loan (බැංකු ණය ඇස්තමේන්තු)</option>
+                                <option value="Structural Design">Structural Design (ව්‍යුහාත්මක සැලසුම්)</option>
+                                <option value="Other Inquiry">Other Inquiry (වෙනත්)</option>
+                            </select>
+                        </div>
+
+                        <!-- Message (Full Width) -->
+                        <div class="input-group full-width">
+                            <label><i class="fas fa-pencil-alt"></i> <span data-en="Additional Note (Optional)" data-si="අමතර විස්තර (අවශ්‍ය නම්)">Additional Note (Optional)</span></label>
+                            <textarea id="w-message" rows="3" placeholder="Ex: I have a 10 perch land..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="wa-submit-btn">
+                        <i class="fab fa-whatsapp"></i> <span data-en="Send to WhatsApp" data-si="WhatsApp වෙත යවන්න">Send to WhatsApp</span>
+                    </button>
+                </form>
 
             </div>
         </div>
@@ -1337,19 +1868,116 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div style="text-align: center;">
-                <div class="footer-logo">NEW FLOWERS <span>DESIGN</span></div>
-                <p data-en="Your trusted partner in construction for over 25 years." 
-                   data-si="වසර 25කට අධික කාලයක් ඉදිකිරීම් ක්ෂේත්‍රයේ ඔබේ විශ්වාසවන්ත සහකරු.">
-                   Your trusted partner in construction for over 25 years.
-                </p>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 New Flowers Home Design & Constructions.
+    <!-- WONDERFUL FOOTER SECTION -->
+    <footer id="main-footer" style="position: relative; background-color: #1a252f; color: #fff; font-size: 0.95rem; overflow: hidden;">
+        
+        <!-- Optional Blueprint Pattern Overlay -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(#2c3e50 1px, transparent 1px), linear-gradient(90deg, #2c3e50 1px, transparent 1px); background-size: 30px 30px; opacity: 0.1; pointer-events: none;"></div>
+
+        <!-- TOP CTA RIBBON -->
+        <div class="footer-cta" style="background: var(--accent-color); padding: 30px 0; position: relative; z-index: 2;">
+            <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+                <div style="flex: 1;">
+                    <h3 style="margin: 0; font-size: 1.5rem; font-weight: 800;" data-en="Ready to build your dream home?" data-si="ඔබේ සිහින නිවස තැනීමට සූදානම්ද?">Ready to build your dream home?</h3>
+                    <p style="margin: 5px 0 0; opacity: 0.9;" data-en="Get a free consultation and BOQ estimate today." data-si="නොමිලේ උපදෙස් සහ BOQ ඇස්තමේන්තුවක් ලබාගන්න.">Get a free consultation and BOQ estimate today.</p>
+                </div>
+                <a href="#contact" style="background: white; color: var(--accent-color); padding: 12px 30px; border-radius: 50px; font-weight: 800; text-transform: uppercase; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                    <span data-en="Get Started" data-si="ආරම්භ කරන්න">Get Started</span> <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
+
+        <!-- MAIN FOOTER CONTENT -->
+        <div class="container" style="padding: 70px 20px 40px; position: relative; z-index: 2;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px;">
+                
+                <!-- Col 1: Brand Info -->
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="footer-logo" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">
+                        <i class="fas fa-city" style="color: var(--accent-color);"></i> NEW FLOWERS
+                    </div>
+                    <p style="color: #a0aab5; line-height: 1.8; margin-bottom: 25px;" 
+                       data-en="The leader in Sri Lankan construction with 25 years of trust. We turn bare lands into architectural masterpieces."
+                       data-si="වසර 25ක විශ්වාසය සමඟින් ශ්‍රී ලංකාවේ ඉදිකිරීම් ක්ෂේත්‍රයේ ප්‍රමුඛයා. අපි හිස් ඉඩම් වාස්තු විද්‍යාත්මක ආශ්චර්යයන් බවට පත් කරමු.">
+                       The leader in Sri Lankan construction with 25 years of trust. We turn bare lands into architectural masterpieces.
+                    </p>
+                    <div class="social-links" style="display: flex; gap: 15px;">
+                        <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="footer-title" data-en="Quick Links" data-si="ක්ෂණික සබැඳි">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home" data-en="Home" data-si="මුල් පිටුව">Home</a></li>
+                        <li><a href="#about" data-en="About Us" data-si="අපි ගැන">About Us</a></li>
+                        <li><a href="#gallery" data-en="Our Projects" data-si="ව්‍යාපෘති">Our Projects</a></li>
+                        <li><a href="alldesigns.html" data-en="New Designs" data-si="නව සැලසුම්">New Designs</a></li>
+                        <li><a href="#contact" data-en="Contact Us" data-si="අප අමතන්න">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Our Services -->
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title" data-en="Our Services" data-si="අපගේ සේවාවන්">Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services" data-en="House Construction" data-si="නිවාස ඉදිකිරීම">House Construction</a></li>
+                        <li><a href="#services" data-en="Architectural Plans" data-si="ගෘහ නිර්මාණ සැලසුම්">Architectural Plans</a></li>
+                        <li><a href="#services" data-en="BOQ Services" data-si="BOQ සේවාව">BOQ Services</a></li>
+                        <li><a href="#services" data-en="3D Modeling" data-si="ත්‍රිමාණ සැලසුම්">3D Modeling</a></li>
+                        <li><a href="#services" data-en="Land Surveying" data-si="ඉඩම් මැනීම">Land Surveying</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact Info -->
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title" data-en="Get In Touch" data-si="සම්බන්ධ වන්න">Get In Touch</h4>
+                    <ul class="contact-list" style="list-style: none; padding: 0;">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span data-en="126/1/1, Court Road, Homagama." data-si="126/1/1, උසාවිය පාර, හෝමාගම.">126/1/1, Court Road, Homagama.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <a href="tel:0777877204">077 787 7204</a>
+                                <a href="tel:0762627204">076 262 7204</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:newflowersdesign@gmail.com">newflowersdesign@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span data-en="Mon - Sat: 8:00 AM - 6:00 PM" data-si="සඳුදා - සෙනසුරාදා: පෙ.ව 8 - ප.ව 6">Mon - Sat: 8:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- COPYRIGHT BOTTOM -->
+        <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.1); padding: 25px 0; background: #151e26; position: relative; z-index: 2;">
+            <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px;">
+                <p style="margin: 0; color: #7f8c8d; font-size: 0.9rem;">
+                    &copy; 2026 <strong>New Flowers</strong>. <span data-en="All Rights Reserved." data-si="සියලුම හිමිකම් ඇවිරිණි.">All Rights Reserved.</span>
+                </p>
+                <p style="margin: 0; color: #7f8c8d; font-size: 0.85rem;">
+                    <span data-en="Designed for Excellence" data-si="විශිෂ්ටත්වය සඳහා නිර්මාණය කර ඇත">Designed for Excellence</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- BACK TO TOP BUTTON -->
+        <button id="backToTop" onclick="scrollToTop()" title="Go to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+
     </footer>
 
     <!-- WIDGETS -->
@@ -1643,6 +2271,75 @@
     function handleSwipe() {
         if (touchEndX < touchStartX - 50) moveSlide(1); // Swipe Left -> Next
         if (touchEndX > touchStartX + 50) moveSlide(-1); // Swipe Right -> Prev
+    }
+	
+	 <!-- JS for Calculator (Add to bottom script) -->
+   
+        function calculateCost() {
+            const area = document.getElementById('calc-area').value;
+            const rate = document.getElementById('calc-type').value;
+            const resultBox = document.getElementById('calc-result');
+            const totalSpan = document.getElementById('total-cost');
+
+            if(area && area > 0) {
+                const total = area * rate;
+                // Format currency (e.g. 15,000,000)
+                totalSpan.innerText = total.toLocaleString('en-US');
+                resultBox.style.display = 'block';
+            } else {
+                alert("Please enter a valid floor area!");
+            }
+        }
+    
+	/* --- BACK TO TOP BUTTON LOGIC --- */
+    const backToTopBtn = document.getElementById("backToTop");
+
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            backToTopBtn.style.display = "block";
+        } else {
+            backToTopBtn.style.display = "none";
+        }
+    };
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+	/* --- WHATSAPP FORM SUBMISSION LOGIC --- */
+    function submitWhatsappForm(e) {
+        e.preventDefault();
+
+        // 1. Get Values
+        const name = document.getElementById('w-name').value;
+        const phone = document.getElementById('w-phone').value;
+        const location = document.getElementById('w-location').value;
+        const service = document.getElementById('w-service').value;
+        const note = document.getElementById('w-message').value;
+
+        // 2. Format Message (Using %0A for new lines and * for bold)
+        // Note: Using encodeURIComponent handles special characters and spaces automatically
+        const message = 
+            `*🔔 NEW WEBSITE INQUIRY*` +
+            `%0A__________________________%0A` +
+            `%0A👤 *Name:* ${name}` +
+            `%0A📞 *Phone:* ${phone}` +
+            `%0A📍 *Location:* ${location}` +
+            `%0A🏗 *Service:* ${service}` +
+            `%0A📝 *Note:* ${note}` +
+            `%0A__________________________%0A` +
+            `%0A*Please contact me regarding this.*`;
+
+        // 3. Open WhatsApp
+        // Using your number: 94777877204
+        const url = `https://wa.me/94777877204?text=${message}`;
+        
+        window.open(url, '_blank');
+        
+        // Optional: Reset form after sending
+        // e.target.reset(); 
     }
 </script>
     
