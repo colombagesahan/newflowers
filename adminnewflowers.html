@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - New Flowers</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+</head>
+<body>
+
+    <!-- Login Gate -->
+    <div id="login-gate" class="admin-login-overlay">
+        <div class="admin-box">
+            <h2 style="text-align:center; margin-bottom:20px;">Admin Login</h2>
+            <div class="form-group">
+                <label>User Name</label>
+                <input type="text" id="u-name">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="p-word">
+            </div>
+            <button class="btn" onclick="checkLogin()" style="width:100%">Login</button>
+            <p id="login-error" style="color:red; text-align:center; display:none; margin-top:10px;">Invalid Credentials</p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard-grid" style="display:none;">
+        <div class="sidebar">
+            <h3>Admin Panel</h3>
+            <ul style="margin-top:20px;">
+                <li onclick="showTab('hero-edit')">Edit Home Text</li>
+                <li onclick="showTab('add-design')">Add New Design</li>
+                <li onclick="showTab('add-project')">Add Completed Project</li>
+                <li onclick="showTab('messages')">View Messages</li>
+                <li onclick="showTab('blog-edit')">Manage Blog</li>
+            </ul>
+        </div>
+        <div class="main-content">
+            
+            <!-- Edit Hero -->
+            <div id="hero-edit" class="tab-content">
+                <h2>Update Home Page Text</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>Hero Title</label>
+                        <input type="text" id="edit-hero-title">
+                    </div>
+                    <div class="form-group">
+                        <label>Hero Subtitle</label>
+                        <input type="text" id="edit-hero-sub">
+                    </div>
+                    <div class="form-group">
+                        <label>About Us Text</label>
+                        <textarea id="edit-about" rows="4"></textarea>
+                    </div>
+                    <button class="btn" onclick="saveTextData()">Update Website</button>
+                </div>
+            </div>
+
+            <!-- Add Design -->
+            <div id="add-design" class="tab-content" style="display:none;">
+                <h2>Add New Design</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>Design Title</label>
+                        <input type="text" id="d-title">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="d-img" placeholder="Paste image link or upload logic needed">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="d-desc"></textarea>
+                    </div>
+                    <button class="btn" onclick="addData('new_designs', 'd-title', 'd-img', 'd-desc')">Publish Design</button>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div id="messages" class="tab-content" style="display:none;">
+                <h2>Inbox</h2>
+                <div id="msg-list" class="grid-box"></div>
+            </div>
+
+            <!-- Add Project -->
+            <div id="add-project" class="tab-content" style="display:none;">
+                <h2>Add Completed Project</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <input type="text" id="p-title">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="p-img">
+                    </div>
+                    <div class="form-group">
+                        <label>Details</label>
+                        <textarea id="p-desc"></textarea>
+                    </div>
+                    <button class="btn" onclick="addData('completed_projects', 'p-title', 'p-img', 'p-desc')">Publish Project</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+    <script>
+        // Security Check
+        function checkLogin() {
+            const u = document.getElementById('u-name').value;
+            const p = document.getElementById('p-word').value;
+            // HARDCODED CREDENTIALS AS REQUESTED
+            if(u === "0777877204" && p === "234991621") {
+                document.getElementById('login-gate').style.display = "none";
+                document.getElementById('dashboard').style.display = "grid";
+                loadMessages();
+            } else {
+                document.getElementById('login-error').style.display = "block";
+            }
+        }
+
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(d => d.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        // Save General Text
+        async function saveTextData() {
+            const title = document.getElementById('edit-hero-title').value;
+            const sub = document.getElementById('edit-hero-sub').value;
+            const about = document.getElementById('edit-about').value;
+
+            if(title) await db.collection(SITE_COLLECTION).doc('hero').set({ title: title, subtitle: sub }, { merge: true });
+            if(about) await db.collection(SITE_COLLECTION).doc('about').set({ text: about }, { merge: true });
+            
+            alert("Website Updated Successfully!");
+        }
+
+        // Add Grid Items
+        async function addData(collection, titleId, imgId, descId) {
+            const title = document.getElementById(titleId).value;
+            const image = document.getElementById(imgId).value;
+            const desc = document.getElementById(descId).value;
+
+            await db.collection(SITE_COLLECTION).collection(collection).add({
+                title, image, desc, date: new Date().toISOString()
+            });
+            alert("Added Successfully!");
+            // Clear inputs
+            document.getElementById(titleId).value = "";
+        }
+
+        // Load Messages
+        async function loadMessages() {
+            const list = document.getElementById('msg-list');
+            const snap = await db.collection(SITE_COLLECTION).collection('messages').orderBy('date', 'desc').get();
+            list.innerHTML = '';
+            snap.forEach(doc => {
+                const m = doc.data();
+                list.innerHTML += `
+                    <div class="card">
+                        <h4>${m.name}</h4>
+                        <small>${m.phone}</small>
+                        <p>${m.msg}</p>
+                        <small>${new Date(m.date).toLocaleDateString()}</small>
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
